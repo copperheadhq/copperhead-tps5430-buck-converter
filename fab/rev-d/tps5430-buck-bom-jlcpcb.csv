@@ -1,0 +1,23 @@
+Comment,Designator,Footprint,LCSC Part #
+10uF,"C1,C2",Capacitor_SMD:C_1210_3225Metric,C77102
+100nF,C3,Capacitor_SMD:C_0603_1608Metric,C14663
+10nF,C4,Capacitor_SMD:C_0603_1608Metric,C57112
+220uF,C5,Capacitor_SMD:CP_Elec_8x10,C341198
+22uF,C6,Capacitor_SMD:C_1210_3225Metric,C21397
+DNP,"C7,C8",Capacitor_SMD:C_1210_3225Metric,
+1nF,C9,Capacitor_SMD:C_0603_1608Metric,C1588
+SMBJ18A,D1,Diode_SMD:D_SMB,C135055
+BZT52C12,D2,Diode_SMD:D_SOD-123,C124196
+B560C,D3,Diode_SMD:D_SMC,C85100
+Green,D4,LED_SMD:LED_0603_1608Metric,C6848499
+4A,F1,Fuse:Fuseholder_Littelfuse_Nano2_154x,C206915
+0R,FB1,Resistor_SMD:R_2512_6332Metric,C346503
+MKDS1.5/2-5.08,"J1,J2","TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal",C480516
+EN,J3,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,
+15uH,L1,Inductor_SMD:L_Bourns_SRP1245A,C189912
+DMP6023LE,Q1,Package_TO_SOT_SMD:SOT-223-3_TabPin2,C154901
+100k,R1,Resistor_SMD:R_0603_1608Metric,C25803
+10.0k,R2,Resistor_SMD:R_0603_1608Metric,C95204
+3.24k,R3,Resistor_SMD:R_0603_1608Metric,C728589
+1.5k,R4,Resistor_SMD:R_0603_1608Metric,C22843
+TPS5430DDAR,U1,Package_SO:TI_SO-PowerPAD-8_ThermalVias,C9864

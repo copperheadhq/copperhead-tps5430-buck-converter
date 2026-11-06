@@ -1,0 +1,9 @@
+(version 1)
+(rule "via drill"
+  (condition "A.Type == 'Via'")
+  (constraint hole_size (min 0.3mm)))
+
+# Solid GND zone connections are set as pad-level overrides (zone_connect 2) in the .kicad_pcb, NOT as rules here:
+#  - R1 pad 2 (change r1-solid-gnd-stitching-vias, 2026-11-06): a zone_connection rule scoped to it did not clear DRC starved_thermal.
+#  - U1 pad 9, all 11 pads (exposed SMD pad, F.Cu/B.Cu pad copper, 8 thermal-via pads) (change u1-pad9-solid-zone-connect, 2026-11-06):
+#    the former rule U1_pad9_solid_to_GND used the same ineffective form and was removed (thermal.tj_max_C).
