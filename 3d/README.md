@@ -9,4 +9,6 @@ Exported with KiCad 10.0.6 from `hardware/` at rev D (`1393414`). Component bodi
 | `tps5430-buck.glb` | the full model for a web or Blender viewer |
 | `tps5430-buck-board-only.stl` | bare outline with holes, for a fit-check print |
 
+`tps5430-buck.step` and `tps5430-buck.glb` include the copperhead logo and `tps5430/rev-d` label added to the silkscreen after the rev D release; the gerbers in `fab/rev-d/` do not.
+
 J1 and J2 are horizontal-entry terminals: J1's wire openings face the left edge and J2's the right edge.

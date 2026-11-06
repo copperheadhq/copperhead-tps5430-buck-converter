@@ -2,6 +2,8 @@
 
 **Released 2026-11-06 from the design at `e03bac1` (release commit `1393414`). This board has never been fabricated or powered. Until bring-up passes, it is unverified. If you send these files to a fab, that decision is yours.**
 
+**No branding in these files.** The copperhead logo and `tps5430/rev-d` label in `hardware/` were added on the front silkscreen after this release. These gerbers are the frozen release and do not show them.
+
 ## What is here
 
 | File | What |

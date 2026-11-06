@@ -24,6 +24,11 @@ Non-isolated: input and output share ground.
 > - **Two layout items are deferred** (see [`fab/rev-d/README.md`](fab/rev-d/README.md) and
 >   [`docs/SUBSYSTEMS.md`](docs/SUBSYSTEMS.md)): C3 has no top-layer ground return, and C2 sits
 >   about 12 mm from U1, so it acts as bulk capacitance only.
+> - **The branding is newer than the fab files.** The copperhead logo and the `tps5430/rev-d`
+>   label in the lower-left corner were added to `hardware/` after rev D was released (silkscreen
+>   only; DRC still 0). The renders and 3D models show them; the gerbers in [`fab/rev-d/`](fab/rev-d/)
+>   and the release assets are the frozen rev D files and do not. Re-plot from `hardware/` if you
+>   want the logo on your boards.
 > - **The schematic title block still says "Rev: A".** The schematic did not change from rev A
 >   to rev D; the revision letter in this repository is the one to go by.
 >
