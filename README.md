@@ -1,3 +1,8 @@
+<p>
+  <img src="images/copperhead-lockup-light.png#gh-light-mode-only" alt="copperhead" height="48">
+  <img src="images/copperhead-lockup.png#gh-dark-mode-only" alt="copperhead" height="48">
+</p>
+
 # TPS5430 12 V to 5 V Industrial Buck Converter, rev D
 
 A compact DC/DC converter for an industrial control cabinet. It takes a 12 V supply (9 to 18 V)

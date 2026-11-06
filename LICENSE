@@ -31,6 +31,11 @@ Share and adapt freely, with attribution.
 
 ## Not covered by any of the above
 
+**The copperhead logo.** `images/copperhead-lockup.png` and `images/copperhead-lockup-light.png`
+come from https://github.com/copperheadhq/copperhead-site (`branding/png/`). They identify
+Copperhead and are not covered by CC-BY-4.0; do not use them to imply endorsement or
+affiliation.
+
 **Third-party libraries.** Footprints and symbols in `hardware/` derive from the KiCad
 standard libraries, which carry their own licence (CC-BY-SA 4.0 with an exception for use in
 designs; see https://www.kicad.org/libraries/license/). That exception is why boards using
