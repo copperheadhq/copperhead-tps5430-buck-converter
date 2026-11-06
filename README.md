@@ -35,7 +35,7 @@ Non-isolated: input and output share ground.
 > Passing ERC and DRC means the copper matches the schematic and a rule set. It is not evidence
 > that the circuit works.
 
-![The board (a render, not a photograph)](images/front.png)
+![The board (a render, not a photograph)](images/board-front.png)
 
 ## The circuit
 
@@ -75,7 +75,7 @@ From [`docs/BOARD-STATS.md`](docs/BOARD-STATS.md):
   pads and mounting holes.
 - **Routing:** 121 vias (0.3 mm drill), 14 nets, power paths 1.0 to 2.5 mm wide.
 
-![Angled view](images/angle.png)
+![Angled view](images/board-angle.png)
 
 ## Layout of this repository
 
