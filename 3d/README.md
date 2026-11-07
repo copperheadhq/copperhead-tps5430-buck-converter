@@ -1,6 +1,6 @@
 # 3D models
 
-Exported with KiCad 10.0.6 from `hardware/` at rev D (`1393414`). Component bodies are generic KiCad library models, except F1 and L1, which use the EasyEDA models in `hardware/lib/3d/`. They are not the exact manufacturer parts. Use them for fit, not for tolerance.
+Exported with KiCad 10.0.6 from `hardware/` at rev E (release commit `c50e737`). Component bodies are generic KiCad library models, except F1 and L1, which use the EasyEDA models in `hardware/lib/3d/`. They are not the exact manufacturer parts. Use them for fit, not for tolerance.
 
 | File | For |
 | --- | --- |
@@ -9,6 +9,6 @@ Exported with KiCad 10.0.6 from `hardware/` at rev D (`1393414`). Component bodi
 | `tps5430-buck.glb` | the full model for a web or Blender viewer |
 | `tps5430-buck-board-only.stl` | bare outline with holes, for a fit-check print |
 
-`tps5430-buck.step` and `tps5430-buck.glb` include the copperhead logo and `tps5430/rev-d` label added to the silkscreen after the rev D release; the gerbers in `fab/rev-d/` do not.
+The parts that are not fitted (C7, C8, C10 and J3) are left out of the models, as they would be on an assembled board; their pads remain.
 
 J1 and J2 are horizontal-entry terminals: J1's wire openings face the left edge and J2's the right edge.

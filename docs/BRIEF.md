@@ -7,9 +7,9 @@ A compact, non-isolated DC buck converter for an industrial installation, accept
 - TPS5430DDAR 3 A, 500 kHz buck regulator (Texas Instruments)
 - SRP1265A-150M 15 µH shielded power inductor (Bourns)
 - B560C-13-F 5 A, 60 V Schottky catch diode (Diodes Incorporated)
-- EEH-ZA1A221P 220 µF, 10 V hybrid output capacitor (Panasonic)
+- EEH-ZA1E221P 220 µF, 25 V hybrid output capacitor (Panasonic). It replaces the EEH-ZA1A221P (10 V) first named here, which is not stocked at LCSC: same ZA series, value and case (research/parts/jlcpcb-sourcing.md, 2026-11-06; brought into the brief 2026-11-06 after verification finding B.F2).
 - Two GRM32ER71H106KA12L 10 µF, 50 V X7R input capacitors (Murata)
-- GRM32ER71A226KE20L 22 µF, 10 V X7R output bypass capacitor (Murata)
+- GRM32ER71E226KE15L 22 µF, 25 V X7R output bypass capacitor (Murata). It replaces the GRM32ER71A226KE20L (10 V) first named here, which had no stock: same value, dielectric and 1210 case (research/parts/jlcpcb-sourcing.md, 2026-11-06; brought into the brief 2026-11-06 after verification finding B.F2).
 - SMBJ18A-13-F input transient-voltage suppressor (Diodes Incorporated)
 - DMP6023LE-13 P-channel MOSFET for input reverse-polarity protection (Diodes Incorporated)
 - Two Phoenix Contact MKDS 1,5/2-5.08 (1715721) two-position, 5.08 mm screw terminals. These replace the Würth 691137710002 first named here, because KiCad has no footprint for the Würth part; pitch and position count are the same (part selection, 2026-11-05).
@@ -18,6 +18,7 @@ A compact, non-isolated DC buck converter for an industrial installation, accept
 - Green LED with series resistor on the 5 V output as a power indicator. It shows that 5 V is present; it is not a power-good signal, because the TPS5430 has no power-good output.
 - Littelfuse 0154004.DRT replaceable 4 A slow-blow fuse in an OMNI-BLOK surface-mount holder, as the input fuse (see `research/parts/input-fuse.md`). 4 A rather than 3 A for margin over the 1.96 A worst-case input current at 50 °C; decided 2026-11-05.
 - Optional footprints for an input EMI filter (LC or π), fitted or bridged at assembly; rev A ships with the filter bridged
+- From rev E: a footprint for a bulk input capacitor on the converter input (VIN_BUCK), Panasonic EEE-FK1H101P 100 µF, 50 V (`research/parts/input-bulk-capacitor.md`). It is not fitted until the rev D hot-plug test shows whether the input needs it; it also damps the optional π filter if that is ever fitted. Decided 2026-11-06 (rev E proposal E7, TPS5430 datasheet §7.3).
 
 ## Power
 - Nominal input: 12 VDC
@@ -31,7 +32,8 @@ A compact, non-isolated DC buck converter for an industrial installation, accept
 - 2-pin screw terminal for VIN and GND, wired to the installation's 12 V SELV DC supply
 - 2-pin screw terminal for 5 V and GND, wired to the 5 V load
 - Test points for protected VIN, 5 V, GND, switch node, feedback, and enable
-- TPS5430 enable pulled high by default, with pads allowing an external contact or open-drain signal to disable the converter
+- TPS5430 enable pulled high by default, with pads allowing an external contact or open-drain signal to disable the converter. From rev E a 0 Ω series resistor sits between the enable pads and the TPS5430, so an ESD or current-limiting resistor can be fitted later without a new layout (decided 2026-11-06, rev E proposal E10; see Assumptions).
+- From rev E, a GND test pad within a few millimetres of the switch-node test point, so the switch node can be probed with a scope ground spring (rev E proposal E6, verification findings L.F1 and S.F1, 2026-11-06)
 
 ## Physical
 - Two-layer PCB, targeted around 55 by 35 mm; grown to 60 by 40 mm in layout so the two M3 holes have free corners beside the terminals and the 12.5 mm inductor (2026-11-05)
@@ -44,6 +46,7 @@ A compact, non-isolated DC buck converter for an industrial installation, accept
 - Use 2 oz copper if available; otherwise widen power paths and use pours on both layers with stitching vias
 - Maintain creepage and clearance suitable for the board's maximum 18 V operating input
 - Clear polarity and terminal labels on silkscreen
+- Branding on the front silkscreen, in a free corner clear of pads, courtyards and other silkscreen: the copperhead lockup (the fiducial mark and the `copperhead` wordmark, as on the STM32 data logger board) with the board name and revision directly below it as `tps5430/rev-<letter>` (2026-11-06; from rev E, rev D has no branding; replaces the 4 mm mark alone)
 - Assembly: fab-assembled PCBA (for example JLCPCB or PCBWay), prototype run of about 5 to 10 boards. Footprints and parts should be ones that assembler can place.
 
 ## Environment
@@ -64,7 +67,7 @@ A compact, non-isolated DC buck converter for an industrial installation, accept
 ## Open questions
 
 ## Assumptions
-- C9, the 1 nF EN-to-GND capacitor, is fitted on rev A (decided 2026-11-06 after the copperhead design review, finding P.F3/S.F1): the TPS5430 enable is held high only by its internal 1.5 MΩ pull-up and is wired off-board to a contact, so without it switching noise or a field-wire transient could turn the converter off. A series resistor for ESD at J3 is not added; if the EN wiring runs outside the cabinet, add one in rev B.
+- C9, the 1 nF EN-to-GND capacitor, is fitted on rev A (decided 2026-11-06 after the copperhead design review, finding P.F3/S.F1): the TPS5430 enable is held high only by its internal 1.5 MΩ pull-up and is wired off-board to a contact, so without it switching noise or a field-wire transient could turn the converter off. A series resistor for ESD at J3 is not added; if the EN wiring runs outside the cabinet, add one in rev B. Rev E adds its footprint, fitted with 0 Ω, because what drives EN and whether its wiring leaves the cabinet are still unknown (person's answer, 2026-11-06; verification questions M.Q1, S.Q1, F.Q1). If the wiring does leave the cabinet, fit a resistor there; the external driver must have no diode or pull-down path to GND when it is unpowered, because the 1.5 MΩ internal pull-up is all that holds EN high (verification finding M.F1).
 - The 12 V source is SELV DC and shares ground with the 5 V load. If not, the board is unsuitable as designed.
 - Input wiring may be noisy, so reverse-polarity and TVS protection are included.
 - The DMP6023LE gate is clamped (zener plus series resistor) so its gate-source voltage stays within the ±20 V rating when the TVS clamps a surge (SMBJ18A clamps near 29 V). Without this, a surge could destroy the reverse-polarity FET.

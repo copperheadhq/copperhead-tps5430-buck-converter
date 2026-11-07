@@ -2,6 +2,475 @@
 
 Append-only, newest first. One entry per committed copperhead run.
 
+## 2026-11-07 — Board text only. In tps5430-12-v-to-5-v-industrial-buck-converter.kicad_pcb, the fab-note text on the User.Comments layer begins 'FAB NOTES (rev A):'. Change only that heading to 'FAB NOTES (rev E):'. Keep the three notes exactly as they are (1. J1 and J2 plated holes: finished hole 1.3 mm MINIMUM (0.9 mm square terminal pins). 2. Outer copper 2 oz (70 um) on F.Cu and B.Cu. 3. Vias marked tented must be tented (solder mask over via, both sides).), and keep the text's position, size and layer. Why: rev E is about to be released (person's request 2026-11-07) and the release freezes the design files; the heading still names rev A. No copper, net, footprint, zone, schematic or BOM change. Add docs/CHANGELOG.md and docs/DECISIONS.md entries. Do not touch releases/ or outputs/. DRC must stay at 0 violations; ERC, parity and drift must stay clean.
+
+- Change: fab-note-heading-rev-e
+- Files: tps5430-12-v-to-5-v-industrial-buck-converter.kicad_pcb, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-07 — Board fab-note heading names rev E (board text only)
+
+- Change: fab-note-heading-rev-e
+- Files: tps5430-12-v-to-5-v-industrial-buck-converter.kicad_pcb (heading of the Cmts.User fab-note gr_text only), docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/fab-note-heading-rev-e
+- Summary:
+  - Rev E is about to be released (person's request, 2026-11-07), and the release freezes the design files. The User.Comments fab note added in change review-docs-fab-notes still began 'FAB NOTES (rev A):'.
+  - The heading now reads 'FAB NOTES (rev E):'. The three notes (1.3 mm minimum finished J1/J2 holes, 2 oz outer copper, tented vias stay tented), the text's position (100, 143), size and layer are unchanged. Checked on the board after the edit.
+  - No copper, net, footprint, zone, schematic or BOM change. releases/ and outputs/ untouched; outputs/ is stale until the next export (User.Comments is not a fab layer).
+- Verification: DRC clean (0 violations). ERC clean. Drift clean. Schematic parity unaffected (no footprint or symbol change).
+
+## 2026-11-07 — Docs only. Bring the design record in step with board commit 01c54ce, made with research/proposals/rev-e/teardrops/scripts/altium_teardrops.py and a kicad-cli zone refill outside copperhead do, at the person's request (2026-11-07). It changes one rule of the Altium-style teardrops of 79270d0: T-junction fillets are now sized from the trunk's (wider track's) width, as Altium's dialog measures w on the trunk, instead of from the narrower track; still clamped to the copper along each arm and shrunk for 0.25 mm clearance and the 1 mm quiet rule. Effect: the C6-tee fillet (0.3 mm LED feed into the 2 mm +5V trunk) grows from about 0.3 mm to about 2 mm along the diagonal and down the feed; equal-width corners (FB, EN, EN_EXT, VIN_PROT, SW at C4) are unchanged; VIN_BUCK fillets at the 1.5 mm track are larger, one at (132.6, 119.8) at half size; the same 4 are skipped. Update docs/LAYOUT.md's teardrop section and the openspec requirement from change docs-sync-board-79270d0-altium-teardrops (a new change that MODIFIES it: T-junction fillets 100 % of the trunk width along the trunk and up the branch). Add docs/DECISIONS.md and docs/CHANGELOG.md entries (why: the person found the C6 fillet radius too small; Altium's diagram measures w on the trunk). The change postdates rev D and belongs to rev E; outputs/ is stale until the next export. Do not edit the .kicad_pcb, .kicad_pro, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean. At this HEAD, KiCad DRC with zone refill and schematic parity reports 0 violations, 0 unconnected and 0 parity issues.
+
+- Change: docs-sync-board-01c54ce-tjunction-trunk-width
+- Files: docs/LAYOUT.md, openspec/changes/docs-sync-board-01c54ce-tjunction-trunk-width/specs/board/spec.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-07 — Docs synced to board commit 01c54ce: T-junction fillets sized from the trunk width (rev E)
+
+- Change: docs-sync-board-01c54ce-tjunction-trunk-width
+- Files: docs/LAYOUT.md (Teardrops and fillets current-state section), docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/docs-sync-board-01c54ce-tjunction-trunk-width (MODIFIED 'Teardrops on pads and vias at track joints')
+- Summary:
+  - The person made board commit 01c54ce (2026-11-07) with research/proposals/rev-e/teardrops/scripts/altium_teardrops.py and a kicad-cli zone refill, outside copperhead do, which cannot refill zones.
+  - One rule of the 79270d0 Altium-style teardrops changed: T-junction fillets are sized from the trunk's (wider track's) width, as Altium's dialog measures w on the trunk, instead of from the narrower track. Still clamped to the copper along each arm and shrunk for 0.25 mm clearance and the 1 mm quiet rule.
+  - Why: the person found the C6-tee fillet radius too small.
+  - Effect (person-reported): C6-tee fillet (0.3 mm LED feed into the 2 mm +5V trunk) about 0.3 → 2 mm along the diagonal and down the feed; equal-width corners (FB, EN, /EN_EXT, VIN_PROT, SW at C4) unchanged; VIN_BUCK fillets at the 1.5 mm track larger, the one at (132.6, 119.8) at half size; the same 4 joints skipped. Pad and via teardrops unchanged.
+  - Postdates rev D (1393414), so rev E. No .kicad_pcb, .kicad_pro, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit; no net, value, part or footprint change.
+- Open: outputs/ is stale until the next export. SW copper not re-measured.
+- Verification: person-reported KiCad DRC with zone refill and schematic parity at HEAD: 0 violations, 0 unconnected, 0 parity issues. copperhead ERC, DRC and drift run in this change.
+
+## 2026-11-07 — Docs only. Bring the design record in step with board commit 79270d0, made with research/proposals/rev-e/teardrops/scripts/altium_teardrops.py and a kicad-cli zone refill outside copperhead do, at the person's request (2026-11-07), because copperhead do cannot refill zones. Read its commit message and the board. The person asked for teardrops on every joint, via, track and pad in the style of Altium's Teardrops dialog: style Curved, adjust size on; via/TH pad 30 % of the diameter long and 70 % wide; SMD pad 100 % of the entering track's width long and 200 % wide; a track width change tapered over 100 % of the wider width; T-junction fillets 100 % of the narrower width along each track and up the branch. Record: (1) docs/LAYOUT.md teardrops section, replacing the current-state description (keep earlier steps 215da06, f862007, aa520d7, eb651e0 as history): pads and vias use KiCad teardrops set per item from the entering track's width (KiCad measures from the pad edge as a multiple of the pad's smaller dimension or the via diameter), curved edges, enabled on 56 pads and 15 vias, 48 generated by the refill and clipped to clearance, C5.1 included again because at these sizes it keeps the 1 mm quiet rule; tracks and T-junctions use 23 curved fillets drawn as filled F.Cu graphic polygons on the joint's net (concave quadratic-Bezier edges), clamped to the copper that exists along each arm and shrunk until they clear other nets by 0.25 mm and, on quiet nets, GND vias by 1 mm; 4 were skipped for lack of room (VIN_BUCK at the via hop at (133.35, 122.3) twice, VIN_BUCK at (127.03, 119.0), the generic SW corner at (130.5, 124.0)); GND joints are skipped because those tracks lie inside the solid GND pour; the SW step at U1 PH has a hand-drawn curved fillet; the straight C6 and SW fillets of aa520d7 and eb651e0 are replaced (the LED branch shift of eb651e0 stays). (2) docs/DECISIONS.md entry with the why (the person's request; mechanical and etch robustness for an industrial cabinet, docs/BRIEF.md Environment). (3) docs/CHANGELOG.md entry. (4) openspec: a new change that MODIFIES the earlier teardrop and T-joint fillet requirements (changes docs-sync-board-215da06-teardrops, docs-sync-board-f862007-tjoint-fillets, docs-sync-board-aa520d7-straight-fillets, docs-sync-board-eb651e0-c6-branch-shift) into one requirement citing docs/BRIEF.md Environment: pads, vias, track width changes and T-junctions SHALL carry curved teardrops or fillets at the Altium-dialog proportions above, reduced where needed to keep 0.2 mm clearance and the 1 mm quiet-copper rule, except GND joints inside the solid pour. Update the SW copper figure where LAYOUT, SPEC or SUBSYSTEMS give it only if it is stated as current (do not invent a value; say it changed slightly with the fillets if no value is measured). The change postdates rev D and belongs to rev E; outputs/ is stale until the next export. Do not edit the .kicad_pcb, .kicad_pro, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean. At this HEAD, KiCad DRC with zone refill and schematic parity reports 0 violations, 0 unconnected and 0 parity issues.
+
+- Change: docs-sync-board-79270d0-altium-teardrops
+- Files: docs/LAYOUT.md, docs/SUBSYSTEMS.md, openspec/changes/docs-sync-board-79270d0-altium-teardrops/specs/board/spec.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-07 — Docs synced to board commit 79270d0: Altium-style curved teardrops and fillets (rev E)
+
+- Change: docs-sync-board-79270d0-altium-teardrops
+- Files: docs/LAYOUT.md (new Teardrops and fillets current-state section; 215da06, f862007, aa520d7, eb651e0 sections marked history; SW copper row and bullet), docs/SUBSYSTEMS.md §3 (SW copper note), docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/docs-sync-board-79270d0-altium-teardrops (MODIFIED teardrop and T-joint fillet requirements, merged)
+- Summary:
+  - The person made board commit 79270d0 (2026-11-07) with research/proposals/rev-e/teardrops/scripts/altium_teardrops.py and a kicad-cli zone refill, outside copperhead do, which cannot refill zones.
+  - Altium Teardrops dialog proportions, style Curved: via/TH pad 30 % of d long, 70 % wide; SMD pad 100 % of track width long, 200 % wide; width change tapered over 100 % of the wider width; T-junction 100 % of the narrower width along each track and up the branch.
+  - Pads and vias: per-item KiCad teardrops from the entering track width, curved, enabled on 56 pads and 15 vias; the refill generated 48 teardrop zones, clipped to clearance. C5.1 included again (keeps the 1 mm quiet rule at these sizes).
+  - Tracks and T-junctions: 23 curved filled F.Cu `gr_poly` fillets on the joint's net (quadratic-Bezier edges), clamped to existing copper and shrunk to clear other nets by 0.25 mm and, on quiet nets, GND vias by 1 mm. 4 skipped for room: VIN_BUCK at (133.35, 122.3) twice, VIN_BUCK at (127.03, 119.0), SW at (130.5, 124.0). GND joints skipped (inside the solid pour). Hand-drawn curved fillet at the SW step at U1 PH.
+  - Replaced: the straight C6-tee (eb651e0) and SW (aa520d7) fillets. The eb651e0 LED branch shift stays.
+  - Checked on the live board in this run: 71 enabled curved per-item teardrop blocks, 48 teardrop zones, 34 `gr_poly` (23 net-assigned F.Cu fillets + 11 lockup).
+  - SW copper changed slightly with the fillets; not re-measured.
+  - Postdates rev D (1393414), so rev E. No .kicad_pcb, .kicad_pro, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit; no net, value, part or footprint change.
+- Open: outputs/ is stale until the next export. Re-measure SW copper if a figure is needed.
+- Verification: person-reported KiCad DRC with zone refill and schematic parity at HEAD: 0 violations, 0 unconnected, 0 parity issues. copperhead ERC, DRC and drift run in this change.
+
+## 2026-11-07 — Docs only. Bring the design record in step with board commit eb651e0, made with research/proposals/rev-e/teardrops/scripts/c6_branch_shift.py and a kicad-cli zone refill outside copperhead do, at the person's request (2026-11-07). Read the commit message and the board. (1) docs/LAYOUT.md placement rows: R4 (157.5, 123.5) -90 to (157.65, 123.5) -90 and D4 (157.5, 127.0) 90 to (157.65, 127.0) 90, keeping the old values as history. (2) docs/LAYOUT.md routing: the 0.3 mm +5V LED feed now runs (157.65, 118.22) to R4.1 (157.65, 122.675), its right edge flush with the 2 mm trunk's right edge x 157.8, starting level with the trunk's corner; /LED_A runs x 157.65 from R4.2 (124.325) to D4.2 (126.213). (3) docs/LAYOUT.md teardrops: the C6-tee +5V fillet of f862007/aa520d7 is replaced by a straight-edged triangular +5V fillet in the V between the feed and the trunk's diagonal, points (157.65, 118.75), (156.9, 119.45), (157.55, 119.75); the SW fillet at U1 PH is unchanged; tjoint_fillets.py now handles only the SW fillet. (4) docs/DECISIONS.md entry (why: the person asked to shift the trace and its downstream parts so the feed meets the trunk flush, with a fillet at the joint, instead of a large fillet bridging an off-centre joint). (5) docs/CHANGELOG.md entry. (6) Update docs/PINOUT.md or docs/BOM.md only if they give R4 or D4 coordinates. The placement file in outputs/ is stale until the next export. The change postdates rev D and belongs to rev E. Do not edit the .kicad_pcb, .kicad_pro, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean. At this HEAD, KiCad DRC with zone refill and schematic parity reports 0 violations, 0 unconnected and 0 parity issues.
+
+- Change: docs-sync-board-eb651e0-c6-branch-shift
+- Files: docs/LAYOUT.md, docs/CHANGELOG.md, openspec/changes/docs-sync-board-eb651e0-c6-branch-shift/specs/board/spec.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-07 — Docs synced to board commit eb651e0: LED feed shifted flush with the +5V trunk, triangular C6-tee fillet (rev E)
+
+- Change: docs-sync-board-eb651e0-c6-branch-shift
+- Files: docs/LAYOUT.md (R4/D4 placement row, Rev E E4 bullet, Routed R4 feed and LED_A bullets, Teardrops cross-reference, T-joint copper fillets section), docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/docs-sync-board-eb651e0-c6-branch-shift (MODIFIED 'copper fillets at narrow-into-wide T-joints')
+- Summary:
+  - The person made board commit eb651e0 (2026-11-07) with research/proposals/rev-e/teardrops/scripts/c6_branch_shift.py and a kicad-cli zone refill, outside copperhead do, which cannot refill zones.
+  - R4 moved from (157.5, 123.5) −90° to (157.65, 123.5) −90°, and D4 from (157.5, 127.0) 90° to (157.65, 127.0) 90°.
+  - The 0.3 mm +5V LED feed now runs (157.65, 118.22) → R4.1 (157.65, 122.675). It starts level with the trunk's corner, and its right edge is flush with the 2 mm trunk's right edge (x 157.8). /LED_A runs x 157.65 from R4.2 (124.325) to D4.2 (126.213).
+  - The aa520d7 C6-tee +5V fillet (uuid 96dd1a03-…) is replaced by a straight-edged triangular +5V fillet in the V between the feed and the trunk's diagonal (uuid 2515ecc8-…): (157.65, 118.75), (156.9, 119.45), (157.55, 119.75). The SW fillet at U1 PH (307e574f-…) is unchanged. tjoint_fillets.py now handles only the SW fillet.
+  - Checked on the live board in this run: R4 `(at 157.65 123.5 -90)`, D4 `(at 157.65 127 90)`, feed and /LED_A segment ends as above, the new polygon on F.Cu net +5V, and 96dd1a03 absent.
+  - docs/PINOUT.md and docs/BOM.md give no R4/D4 coordinates, so they are unchanged.
+  - Postdates rev D (1393414), so rev E. No .kicad_pcb, .kicad_pro, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit; no net, value, part or footprint change.
+- Open: outputs/ is stale until the next export, including the placement file (R4/D4 positions).
+- Verification: person-reported KiCad DRC with zone refill and schematic parity at HEAD: 0 violations, 0 unconnected, 0 parity issues. copperhead ERC, DRC and drift run in this change.
+
+## 2026-11-07 — Docs only. Bring the design record in step with board commit aa520d7, made with research/proposals/rev-e/teardrops/scripts/tjoint_fillets.py and a kicad-cli zone refill outside copperhead do, at the person's request (2026-11-07). It replaces the two rounded T-joint fillets of f862007 (convex hulls of two circles) with straight-sided tapered polygons, still filled F.Cu graphic polygons on the joint's net: +5V at the C6 tee, points (157.0, 118.3), (157.8, 118.22), (157.65, 119.9), (157.35, 119.9), (157.08, 119.35), the right edge continuing the trunk's x 157.8 edge down to the 0.3 mm LED feed; SW at U1 PH, points (129.1, 124.095), (130.5, 123.0), (130.9, 123.0), (130.9, 125.0), (130.5, 125.0), (129.1, 125.095), straight from the 1.0 mm track's edges to the corners of the 2.0 mm run. SW copper on F.Cu is now 48.3 mm2 (48.4 with the rounded fillet, 48.2 before any). Update docs/LAYOUT.md where it describes the f862007 fillet shapes and the SW copper figure, and docs/SUBSYSTEMS.md where it gives the SW copper figure; keep the rounded version as history. Add a docs/DECISIONS.md entry (why: the person asked for straight geometry) and a docs/CHANGELOG.md entry. If the openspec requirement from change docs-sync-board-f862007-tjoint-fillets says teardrop-shaped, add a change that MODIFIES it to say tapered copper fillet with straight edges. The change postdates rev D and belongs to rev E; outputs/ is stale until the next export. Do not edit the .kicad_pcb, .kicad_pro, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean. At this HEAD, KiCad DRC with zone refill and schematic parity reports 0 violations, 0 unconnected and 0 parity issues.
+
+- Change: docs-sync-board-aa520d7-straight-fillets
+- Files: docs/LAYOUT.md, docs/SUBSYSTEMS.md, openspec/changes/docs-sync-board-aa520d7-straight-fillets/specs/board/spec.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-07 — Docs synced to board commit aa520d7: straight tapered T-joint fillets (rev E)
+
+- Change: docs-sync-board-aa520d7-straight-fillets
+- Files: docs/LAYOUT.md (option A SW copper row, Teardrops cross-reference, T-joint copper fillets section), docs/SUBSYSTEMS.md §3 (SW copper figure), docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/docs-sync-board-aa520d7-straight-fillets (MODIFIED 'copper fillets at narrow-into-wide T-joints' and 'minimal switch-node copper')
+- Summary:
+  - The person made board commit aa520d7 (2026-11-07) with research/proposals/rev-e/teardrops/scripts/tjoint_fillets.py and a kicad-cli zone refill, outside copperhead do, which cannot refill zones.
+  - The two rounded fillets of f862007 (convex hulls of two circles) are replaced by straight-sided tapered filled F.Cu `gr_poly` items on the joint's net:
+    - +5V at the C6 tee (uuid 96dd1a03-…): (157.0, 118.3), (157.8, 118.22), (157.65, 119.9), (157.35, 119.9), (157.08, 119.35); the right edge continues the trunk's x 157.8 edge down to the 0.3 mm LED feed.
+    - SW at U1 PH (uuid 307e574f-…): (129.1, 124.095), (130.5, 123.0), (130.9, 123.0), (130.9, 125.0), (130.5, 125.0), (129.1, 125.095), straight from the 1.0 mm track's edges to the corners of the 2.0 mm run.
+  - Checked on the live board in this run: both polygons present with these points and nets; the f862007 uuids (1177ddbc-…, 97729a92-…) are gone.
+  - SW copper on F.Cu 48.4 → 48.3 mm² (48.2 before any fillet; person-reported).
+  - The rounded f862007 shapes are kept as history in LAYOUT. The f862007 openspec requirement said teardrop-shaped; it is MODIFIED to a tapered copper fillet with straight edges.
+  - Postdates rev D (1393414), so rev E. No .kicad_pcb, .kicad_pro, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit; no net, value, part or footprint change.
+- Open: outputs/ is stale until the next export.
+- Verification: person-reported KiCad DRC with zone refill and schematic parity at HEAD: 0 violations, 0 unconnected, 0 parity issues. copperhead ERC, DRC and drift run in this change.
+
+## 2026-11-07 — Docs only. Bring the design record in step with board commit f862007, made with research/proposals/rev-e/teardrops/scripts/tjoint_fillets.py and a kicad-cli zone refill outside copperhead do, at the person's request (2026-11-07), because copperhead do cannot refill zones. Read the commit message and the board. It adds two filled F.Cu graphic polygons with nets (teardrop-shaped copper fillets) at the two narrow-into-wide T-joints that KiCad's teardrop tool skips, because the narrow track ends inside another track rather than at its end: (a) +5V, the 0.3 mm LED feed ending at (157.5, 118.6) inside the corner of the 2 mm +5V trunk beside C6: hull of a 0.15 mm radius circle at (157.5, 119.9) and a 0.5 mm radius circle at (157.5, 118.6); (b) SW, the 1.0 mm PH track ending at (129.9, 124.6) inside the round end of the 2.0 mm SW run: hull of 0.5 mm radius at (129.1, 124.595) and 1.0 mm radius at (130.5, 124.0); SW copper on F.Cu 48.2 to 48.4 mm2. Record: (1) docs/LAYOUT.md teardrops section: the two fillets, why (T-joints are not handled by KiCad's teardrop tool, neither by the kicad-cli refill nor by Edit > Edit Teardrops in the editor, which the person tried on 2026-11-07), and that they are graphic copper shapes with a net, so they survive refills and DRC checks them; correct the earlier statement that the six track-to-track joints have no teardrops: of those, the C6 tee and the SW step now have fillets; the others end on pads (covered by pad teardrops) or are equal-width VIN_BUCK joints that need none. Update the SW copper figure where LAYOUT, SPEC or SUBSYSTEMS give it, and the minimal switch-node copper requirement only if its text lists the SW copper items (add the fillet). (2) docs/DECISIONS.md entry. (3) docs/CHANGELOG.md entry. (4) openspec: a new change with a requirement citing docs/BRIEF.md Environment: narrow-into-wide T-joints that KiCad's teardrop tool cannot reach SHALL carry a teardrop-shaped copper fillet on the joint's net. The change postdates rev D and belongs to rev E; outputs/ is stale until the next export. Do not edit the .kicad_pcb, .kicad_pro, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean. At this HEAD, KiCad DRC with zone refill and schematic parity reports 0 violations, 0 unconnected and 0 parity issues.
+
+- Change: docs-sync-board-f862007-tjoint-fillets
+- Files: docs/LAYOUT.md, docs/SUBSYSTEMS.md, openspec/changes/docs-sync-board-f862007-tjoint-fillets/specs/board/spec.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-07 — Docs synced to board commit f862007: T-joint copper fillets (rev E)
+
+- Change: docs-sync-board-f862007-tjoint-fillets
+- Files: docs/LAYOUT.md (Teardrops section corrected, new T-joint copper fillets section, option A SW copper row), docs/SUBSYSTEMS.md §3 (SW copper figure), docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/docs-sync-board-f862007-tjoint-fillets (ADDED T-joint fillet requirement, MODIFIED 'minimal switch-node copper')
+- Summary:
+  - The person made board commit f862007 (2026-11-07) with research/proposals/rev-e/teardrops/scripts/tjoint_fillets.py and a kicad-cli zone refill, outside copperhead do, which cannot refill zones.
+  - Two filled F.Cu `gr_poly` copper fillets with nets, at the T-joints KiCad's teardrop tool skips (narrow track ending inside another track; neither the refill nor Edit > Edit Teardrops handles them, tried 2026-11-07):
+    - +5V (uuid 1177ddbc-…): 0.3 mm LED feed into the 2 mm trunk corner beside C6; hull of r 0.15 mm at (157.5, 119.9) and r 0.5 mm at (157.5, 118.6).
+    - SW (uuid 97729a92-…): 1.0 mm PH track into the round end of the 2.0 mm SW run; hull of r 0.5 mm at (129.1, 124.595) and r 1.0 mm at (130.5, 124.0).
+  - Graphic copper with a net survives zone refills and is checked by DRC.
+  - Correction to docs-sync-board-215da06-teardrops: of the six track-to-track junctions said to have no teardrop, the C6 tee and the SW step now have fillets; the others end on pads (pad teardrops) or are equal-width VIN_BUCK joints that need none.
+  - SW copper on F.Cu 48.2 → 48.4 mm² (person-reported).
+  - Checked on the live board in this run: both polygons present on F.Cu with nets +5V and SW and the points above.
+  - Postdates rev D (1393414), so rev E. No .kicad_pcb, .kicad_pro, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit.
+- Open: outputs/ is stale until the next export. The 215da06 open item asking for Edit > Edit Teardrops is closed by this change.
+- Verification: person-reported KiCad DRC with zone refill and schematic parity at HEAD: 0 violations, 0 unconnected, 0 parity issues. copperhead ERC, DRC and drift run in this change.
+
+## 2026-11-07 — Docs only. Bring the design record in step with board commit 215da06 (teardrops), made with research/proposals/rev-e/teardrops/scripts/teardrops.py and a kicad-cli zone refill outside copperhead do, at the person's request (2026-11-07), because copperhead do cannot refill zones. Read the commit message and the board. Record: (1) docs/LAYOUT.md, a teardrops bullet or section: the teardrop flag is set on every pad (82) and via (178) except C5.1; the refill generated 44 teardrop zones at track-to-pad and track-to-via joints, per net +5V 6, FB 5, /Q1_GATE 4, VIN_BUCK 4, GND 4, EN 3, /EN_EXT 3, VIN_PROT 3, VIN_FUSED 3, SW 3, /LED_A 2, /VIN_RAW 2, /BOOT 2; KiCad's default parameters from the project (87c1c40): length ratio 0.5 up to 1 mm, height ratio 1.0 up to 2 mm, only where the track is narrower than 0.9 x the pad, none on pads inside a zone. C5.1 has none, because its teardrop on the 0.4 mm Kelvin run came 0.68 mm from the GND via at (140.75, 118.75), inside the 1 mm quiet-copper rule; C5.1 is a 3.5 x 2.5 mm pad. Every GND via edge stays at least 1 mm from FB, EN, /EN_EXT, the Kelvin run and their teardrops. (2) The track-to-track option set in 87c1c40 (td_ontrackend true) generated nothing: kicad-cli's zone refill builds pad and via teardrops only, so the six track-to-track junctions have none (the 0.3 mm LED feed tee into the 2 mm +5V trunk at (157.5, 118.6), the SW width steps 0.5/1.0/2.0 mm at U1 PH, VIN_PROT 1.0 to 2.0 mm at Q1). They would need KiCad's Edit > Edit Teardrops in the editor. Say so in LAYOUT and in the DECISIONS entry, correcting the 87c1c40 DECISIONS entry's expectation without deleting it. (3) docs/DECISIONS.md entry (why: etch and mechanical robustness for a board in an industrial cabinet, docs/BRIEF.md Environment; JLCPCB does not require them). (4) docs/CHANGELOG.md entry. (5) openspec: a new change with a requirement citing docs/BRIEF.md Environment: pads and vias SHALL carry KiCad teardrops at track joints where the track is narrower than 0.9 x the pad, except where a teardrop would bring quiet copper within 1 mm of a GND via. The change postdates rev D and belongs to rev E; outputs/ is stale until the next export. Do not edit the .kicad_pcb, .kicad_pro, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean. At this HEAD, KiCad DRC with zone refill and schematic parity reports 0 violations, 0 unconnected and 0 parity issues.
+
+- Change: docs-sync-board-215da06-teardrops
+- Files: docs/LAYOUT.md, docs/CHANGELOG.md, openspec/changes/docs-sync-board-215da06-teardrops/specs/board/spec.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-07 — Docs synced to board commit 215da06: teardrops on pads and vias (rev E)
+
+- Change: docs-sync-board-215da06-teardrops
+- Files: docs/LAYOUT.md (new Teardrops section), docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/docs-sync-board-215da06-teardrops (requirement)
+- Summary:
+  - The person made board commit 215da06 (2026-11-07) with research/proposals/rev-e/teardrops/scripts/teardrops.py and a kicad-cli zone refill, outside copperhead do, which cannot refill zones.
+  - Teardrop flag on every pad (82) except C5.1, and on every via (178). Parameters are KiCad defaults (87c1c40): length 0.5 up to 1 mm, height 1.0 up to 2 mm, filter 0.9, none on pads inside a zone.
+  - 44 `padvia` teardrop zones were generated. Per net: +5V 6, FB 5, /Q1_GATE 4, VIN_BUCK 4, GND 4, EN 3, /EN_EXT 3, VIN_PROT 3, VIN_FUSED 3, SW 3, /LED_A 2, /VIN_RAW 2, /BOOT 2.
+  - C5.1 has none: its teardrop on the 0.40 mm Kelvin run came 0.68 mm from the GND via at (140.75, 118.75), inside the 1 mm quiet-copper rule.
+  - Checked on the live board in this run: 82 enabled pad teardrop blocks, none on C5.1, 44 `padvia` zones, no `track_end` zones.
+  - Track-to-track teardrops (`td_ontrackend`, 87c1c40) generated nothing, because kicad-cli's refill builds pad and via teardrops only. The LED feed tee at (157.5, 118.6), the SW steps at U1 PH and VIN_PROT at Q1 have none. The 87c1c40 expectation is corrected in DECISIONS.
+  - Postdates rev D (1393414), so rev E. No .kicad_pcb, .kicad_pro, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit.
+- Open:
+  - outputs/ is stale until the next export.
+  - Track-to-track teardrops need KiCad Edit > Edit Teardrops in the editor, if still wanted.
+- Verification: person-reported KiCad DRC with zone refill and schematic parity at HEAD: 0 violations, 0 unconnected, 0 parity issues. copperhead ERC, DRC and drift run in this change.
+
+## 2026-11-07 — Project setting only. In tps5430-12-v-to-5-v-industrial-buck-converter.kicad_pro, under board.design_settings, set the KiCad teardrop option 'td_ontrackend' (Board Setup > Design Rules > Teardrops > Track to track) to true, so a zone refill also generates track-to-track teardrops where a narrow track joins a wider one. Keep KiCad's defaults for everything else: td_onvia, td_onsmdpad and td_onpthpad true, td_onroundshapesonly false, and the three teardrop_parameters entries (td_round_shape, td_rect_shape, td_track_end) at length ratio 0.5, max length 1.0 mm, height ratio 1.0, max height 2.0 mm, width-to-size filter 0.9, two-track spans allowed, no teardrop on pads inside a zone. If the file has no teardrop_options or teardrop_parameters block yet, add them with these values. Why: the person asked for teardrops on 2026-11-07 (the 0.3 mm LED feed tee into the 2 mm +5V trunk at (157.5, 118.6), the SW width steps at U1 PH, VIN_PROT 1.0 to 2.0 mm at Q1, and ~45 track-to-pad/via joints) for mechanical and etch robustness on a board for an industrial cabinet (docs/BRIEF.md Environment). Pad and via teardrop flags and the zone refill that generates the teardrops follow as a separate person-made board commit, because copperhead do cannot refill zones. Do not edit the .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/. Record a docs/DECISIONS.md entry and a docs/CHANGELOG.md entry. Drift must stay clean.
+
+- Change: kicad-pro-teardrop-track-to-track
+- Files: tps5430-12-v-to-5-v-industrial-buck-converter.kicad_pro, docs/DECISIONS.md, docs/CHANGELOG.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-07 — Project setting: KiCad track-to-track teardrops enabled (rev E)
+
+- Change: kicad-pro-teardrop-track-to-track
+- Files: tps5430-12-v-to-5-v-industrial-buck-converter.kicad_pro (board.design_settings only), docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/kicad-pro-teardrop-track-to-track
+- Summary:
+  - The person asked for teardrops on 2026-11-07 for mechanical and etch robustness in an industrial cabinet (docs/BRIEF.md Environment). Joints in question:
+    - the 0.3 mm LED feed tee into the 2 mm +5V trunk at (157.5, 118.6)
+    - the SW width steps at U1 PH
+    - VIN_PROT stepping from 1.0 to 2.0 mm at Q1
+    - about 45 track-to-pad/via joints
+  - The project file had no teardrop block. Added `teardrop_options` with `td_ontrackend` true. The rest are KiCad defaults: `td_onvia`, `td_onsmdpad` and `td_onpthpad` true, `td_onroundshapesonly` false.
+  - Added `teardrop_parameters` for `td_round_shape`, `td_rect_shape` and `td_track_end`, each at KiCad defaults:
+    - length ratio 0.5, max length 1.0 mm
+    - height ratio 1.0, max height 2.0 mm
+    - width-to-size filter 0.9
+    - two-track spans allowed, straight edges
+    - no teardrop on pads inside a zone
+  - No .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit. No copper, net, value, part or footprint change. The board has no teardrops yet.
+- Open: a separate person-made board commit sets the pad and via teardrop flags and refills the zones with KiCad, which generates the teardrops, because copperhead do cannot refill zones. Re-run KiCad DRC with zone refill and schematic parity after that commit. outputs/ stays stale until the next export.
+- Verification: ERC clean. DRC clean. Drift clean.
+
+## 2026-11-07 — Docs only. Bring the design record in step with board commit f05b01f, made with a pcbnew script (research/proposals/rev-e/sense-trace/scripts/kelvin_variants.py wide) and a kicad-cli zone refill outside copperhead do at the person's request (2026-11-07), because copperhead do cannot refill zones. The +5V R2.1 Kelvin feed (C5.1 -> R2.1) is widened from 0.25 to 0.40 mm on all five segments, same route: F.Cu C5.1 (141.0, 116.8) -> via (139.4, 116.8); B.Cu 21.85 mm along y 116.8 and 10.15 mm down x 117.3; via (117.3, 127.2) -> F.Cu to R2.1. Length unchanged, 32.4 mm on B.Cu. The B.Cu GND slot around it widens by 0.15 mm. No GND via moved; every GND via edge stays at least 1 mm from the run (rule of change gnd-stitching-vias-density). research/proposals/rev-e/ground-stitching/scripts/stitching.py now finds the Kelvin run by tracing narrow +5V copper from R2.1 rather than by its 0.25 mm width. Options compared (keep, shorten to 26.4 mm on a diagonal, widen) in research/proposals/rev-e/sense-trace/renders/sense-trace-options.png; the person chose widen because the run read as a hairline. Verify the widths against the board first. Record: docs/LAYOUT.md R2.1 Kelvin feed bullet (0.25 -> 0.40 mm, keep 0.25 as history), the quiet-copper stitching bullet and any other current-state mention of the '0.25 mm R2.1 Kelvin run' (refer to it as the R2.1 Kelvin run, 0.40 mm); docs/DECISIONS.md one entry (why: a 0.25 mm 32 mm run read as a hairline and is fragile to etch and handle; it carries only R2 divider current so width is not electrical; widen kept the route and the 1 mm quiet-copper margin, unlike the shorter diagonal); docs/CHANGELOG.md entry, and clear the open item in CHANGELOG that asks for this. If an openspec requirement names the run as 0.25 mm, update it in a new change citing docs/BRIEF.md. Postdates rev D; rev E; outputs/ stale until next export. Do not edit the .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean. At this HEAD, KiCad DRC with zone refill and schematic parity reports 0 violations, 0 unconnected, 0 parity issues.
+
+- Change: docs-sync-board-f05b01f-kelvin-width
+- Files: docs/LAYOUT.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-07 — Docs synced to board commit f05b01f: R2.1 Kelvin run widened 0.25 → 0.40 mm (rev E)
+
+- Change: docs-sync-board-f05b01f-kelvin-width
+- Files: docs/LAYOUT.md (R2.1 Kelvin feed bullet, quiet-copper stitching bullet, item 4 history note), docs/DECISIONS.md, docs/CHANGELOG.md (this entry; the open item from docs-sync-board-tp8-spacing marked closed), openspec/changes/docs-sync-board-f05b01f-kelvin-width
+- Summary:
+  - The person made board commit f05b01f (2026-11-07) with research/proposals/rev-e/sense-trace/scripts/kelvin_variants.py `wide` and a kicad-cli zone refill, outside copperhead do.
+  - The +5V R2.1 Kelvin run (C5.1 → R2.1) goes from 0.25 to 0.40 mm on all five segments, on the same route: F.Cu C5.1 (141, 116.8) → via (139.4, 116.8); B.Cu 21.85 mm along y 116.8, a 45°, and 10.15 mm down x 117.3; via (117.3, 127.2) → F.Cu to R2.1 (118.675, 127.2). Length is unchanged, 32.4 mm on B.Cu.
+  - Checked on the live board in this run: every segment of the run reads `(width 0.4)`, on both F.Cu and B.Cu.
+  - The B.Cu GND slot is 0.15 mm wider. No GND via moved, so the 1 mm quiet-copper margin of gnd-stitching-vias-density holds. stitching.py now finds the run by tracing narrow +5V copper from R2.1, not by its 0.25 mm width.
+  - Options compared were keep, shorten (26.4 mm diagonal) and widen (research/proposals/rev-e/sense-trace/renders/sense-trace-options.png). The person chose widen.
+  - No openspec requirement named the run as 0.25 mm, so none was modified.
+  - The commit postdates rev D (1393414), so it belongs to rev E. No .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit, and no net, value, part or footprint change.
+- Open: outputs/ is stale until the next export.
+- Verification: person-reported KiCad DRC with zone refill and schematic parity at HEAD gives 0 violations, 0 unconnected and 0 parity issues. copperhead ERC, DRC and drift were run in this change.
+
+## 2026-11-07 — Docs only. Bring the design record in step with board commits cc082ae and 9493399 (9493399 restores the cc082ae TP8 position, which f05b01f had reverted by writing an older board copy), made with a pcbnew script outside copperhead do at the person's request (2026-11-07). TP8 (TP_GND3, GND probe pad, 1.0x1.0 mm) moved from (131.45, 121.6) to (131.85, 121.3), rotation 0, for more room between it and TP5 (SW, unchanged at (129.3, 122.0)). Centre spacing 2.2 -> 2.65 mm, pad-edge gap in x 1.15 -> 1.55 mm, courtyards no longer touch. Still within rev E E6's 2-3 mm (docs/BRIEF.md Interfaces: GND test pad within a few millimetres of TP5). The position is limited by the 1.5 mm VIN_BUCK track end at (132.6, 119.8), 0.28 mm clearance. TP8 keeps its solid GND zone connection; zone fill unchanged. TP8's Reference moved with it to (132.1, 119.95) (was 131.7, 120.25). Verify these against the board file first. Record: docs/LAYOUT.md placement row for C10/R5/TP8, the option A bullets that say TP8 at (131.45, 121.6) 2.2 mm from TP5, the TP8 reference position (keep old values as history); docs/DEVPLAN.md T5 if it cites the TP8 position or spacing; docs/DECISIONS.md one entry (why: the person asked for more spacing between the SW and GND probe pads so a probe tip and ground spring are less likely to bridge them; still inside E6); docs/CHANGELOG.md entry. Also note that the f05b01f +5V sense trace widening (0.25 -> 0.40 mm, C5.1 -> R2.1 Kelvin run) is a separate change not covered here unless already recorded. Postdates rev D; rev E; outputs/ stale until next export. Do not edit the .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean. At this HEAD, KiCad DRC with zone refill and schematic parity reports 0 violations, 0 unconnected, 0 parity issues.
+
+- Change: docs-sync-board-tp8-spacing
+- Files: docs/LAYOUT.md, docs/DEVPLAN.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-07 — Docs synced to board commits cc082ae and 9493399: TP8 moved for more probe spacing (rev E)
+
+- Change: docs-sync-board-tp8-spacing
+- Files: docs/LAYOUT.md (C10/R5/TP8 placement row, option A placement bullet, both TP5/TP8 reference bullets), docs/DEVPLAN.md T5, docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/docs-sync-board-tp8-spacing
+- Summary:
+  - The person made both commits with a pcbnew script, outside copperhead do. 9493399 restores the cc082ae TP8 position, which f05b01f had reverted by writing an older board copy.
+  - TP8 (TP_GND3, 1.0 × 1.0 mm GND probe pad) moved from (131.45, 121.6) to (131.85, 121.3), rotation 0. TP5 (SW) is unchanged at (129.3, 122.0).
+  - Spacing: centre 2.2 → 2.65 mm, pad-edge gap in x 1.15 → 1.55 mm, and the courtyards no longer touch. This is still inside rev E E6's 2–3 mm (docs/BRIEF.md Interfaces).
+  - The position is limited by the 1.5 mm VIN_BUCK track end at (132.6, 119.8), which is 0.28 mm from TP8's pad corner.
+  - The TP8 reference moved with the pad to (132.1, 119.95), from (131.7, 120.25). The solid GND zone connection and the zone fill are unchanged.
+  - Checked on the live board in this run: TP8 `(at 131.85 121.3)`, Reference local (0.25, −1.35), TP5 `(at 129.3 122)`, and the VIN_BUCK segment end at (132.6, 119.8).
+  - **Not covered here:** f05b01f also widened the +5V Kelvin sense run (C5.1 → R2.1) from 0.25 to 0.40 mm. The live board shows 0.4 mm on both its F.Cu and B.Cu segments. That is a separate change, and no doc records it yet. *Recorded since by change docs-sync-board-f05b01f-kelvin-width (2026-11-07).*
+  - The commits postdate rev D (1393414), so they belong to rev E. No .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit.
+- Open: outputs/ is stale until the next export. Record the f05b01f Kelvin-run widening in docs/LAYOUT.md (the R2.1 Kelvin feed bullet still says 0.25 mm) in a separate change. **Closed by change docs-sync-board-f05b01f-kelvin-width (2026-11-07).**
+- Verification: person-reported KiCad DRC with zone refill and schematic parity at HEAD: 0 violations, 0 unconnected, 0 parity issues. copperhead ERC, DRC and drift were run in this change.
+
+## 2026-11-07 — Docs only. Bring the design record in step with three board commits made with KiCad pcbnew scripts and a kicad-cli zone refill outside copperhead do, at the person's request (2026-11-07), because copperhead do cannot refill zones: d4738e0 (branding position), bf2e241 (GND stitching redo) and e453b54 (fix to bf2e241). Plan and rules: research/proposals/rev-e/ground-stitching/stitching-plan.md; scripts: research/proposals/rev-e/ground-stitching/scripts/move_branding.py and stitching.py. Read those commit messages and the board for exact figures. Record:
+(1) docs/LAYOUT.md silkscreen: the copperhead lockup and the tps5430/rev-e label moved together by (+0.5, -1.45) mm to x 102.0-116.4, y 134.15-138.0, 2.0 mm from both the left and the bottom board edge (was 1.5 mm and 0.55 mm), label still directly below the lockup (docs/BRIEF.md Physical); TP7's EN name moved from the left of TP7 to above-left of it (x 118.1-119.9, y 132.0-133.4) so it no longer reads as part of the lockup and stays clear of the J3 reference.
+(2) docs/LAYOUT.md stitching: replace the via-site lists of r1-solid-gnd-stitching-vias and gnd-stitching-vias-density as current state (keep them as history) with the new rules: keep the 22 GND vias on a GND track end, inside D3's courtyard, or within 3.6 mm of D3.2, D1.2, C1.2, C2.2, C5.2 or C6.2; remove the other 82; add 148 tented 0.6/0.3 mm GND vias only where both GND fills overlap with 0.35 mm to spare: a ring within 1.6 mm of the SW copper (28), an edge fence at 2.5 mm pitch 1.4 mm in from the edges (55), and a 3.75 mm grid plus gap fill until every point that can take a via is within 3 mm of one (65). No new via in a part courtyard except L1, J1, J2, D3 and U1; none under the lockup and label (keep-out to the left and bottom edges, 2.6 mm towards TP7); every GND via edge at least 1 mm from FB, EN, /EN_EXT and the 0.25 mm R2.1 Kelvin run (the gnd-stitching-vias-density rule, kept). GND vias 104 -> 170; mean distance from the GND pours to the nearest GND via 2.12 -> 1.79 mm; the largest gap, 8.2 mm, is the strip under the label kept clear on purpose, elsewhere the worst is about 5.3 mm beside C5. Say the drill file gains 66 holes.
+(3) docs/DECISIONS.md: one entry for the branding position and EN label (person's request, equal margins) and one for the stitching redo (why: ad hoc vias with uneven coverage and no edge fence; worst spacing about 5 mm, far below lambda/20 at 1 GHz in FR-4, about 7 mm). Note that bf2e241 broke the 1 mm quiet-copper rule for 8 vias, which KiCad DRC cannot check, and e453b54 fixed it.
+(4) docs/CHANGELOG.md entry.
+(5) openspec: a new change with requirements citing docs/BRIEF.md Physical ('Large copper pours'): GND stitching SHALL consist of the kept functional vias plus a ring along the SW copper, an edge fence at most 2.5 mm pitch, and a grid of at most 3.75 mm pitch with gap fill to 3 mm wherever both pours can take a via; no new GND via inside a small-part courtyard or under the lockup and label; every GND via edge at least 1 mm from FB, EN, /EN_EXT and the R2.1 Kelvin run. And a requirement that the lockup and label sit with equal margins of 2.0 mm from the left and bottom board edges.
+The changes postdate rev D and belong to rev E; outputs/ is stale until the next export. Do not edit the .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean. At this HEAD, KiCad DRC with zone refill and schematic parity reports 0 violations, 0 unconnected and 0 parity issues.
+
+- Change: docs-sync-board-ground-stitching-branding
+- Files: docs/LAYOUT.md, docs/SPEC.md, openspec/changes/docs-sync-board-ground-stitching-branding/specs/board/spec.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-07 — Docs synced to board commits d4738e0 (branding position), bf2e241 (GND stitching redo) and e453b54 (fix to bf2e241) (rev E)
+
+- Change: docs-sync-board-ground-stitching-branding
+- Files: docs/LAYOUT.md (Silkscreen: TP7 EN name, lockup, label, clearance; new stitching current-state bullet, older via lists marked history), docs/SPEC.md §6, .copperhead/constraints.json (`pcb.copper_oz`), openspec/changes/docs-sync-board-ground-stitching-branding (two requirements), docs/DECISIONS.md, docs/CHANGELOG.md
+- Summary:
+  - The person made these commits with research/proposals/rev-e/ground-stitching/scripts/move_branding.py and stitching.py and a kicad-cli zone refill, outside copperhead do, which cannot refill zones. Plan: research/proposals/rev-e/ground-stitching/stitching-plan.md.
+  - **Branding (d4738e0):** lockup and tps5430/rev-e label moved together by (+0.5, −1.45) mm to x 102.0–116.4, y 134.15–138.0. That is 2.0 mm from both the left and the bottom edge (was 1.5 and 0.55 mm). The label stays directly below the lockup. TP7's `EN` name moved from left of TP7 to above-left (x 118.1–119.9, y 132.0–133.4), so it no longer reads as part of the lockup and clears the J3 reference.
+  - **Stitching (bf2e241, e453b54):**
+    - 22 functional GND vias kept; 82 removed.
+    - 148 tented 0.6/0.3 mm vias added where both GND fills overlap with 0.35 mm to spare: ring within 1.6 mm of the SW copper 28, edge fence at 2.5 mm pitch 1.4 mm in 55, 3.75 mm grid plus gap fill to 3 mm 65.
+    - No new via in a part courtyard except L1, J1, J2, D3, U1; none under the lockup and label.
+    - GND vias 104 → 170; the drill file gains 66 holes. Mean distance to the nearest GND via 2.12 → 1.79 mm. Largest gap 8.2 mm under the label, on purpose; elsewhere about 5.3 mm beside C5.
+    - bf2e241 broke the 1 mm quiet-copper rule (FB, EN, EN_EXT, R2.1 Kelvin run) for 8 vias, which KiCad DRC cannot check; e453b54 fixed it.
+  - Checked on the live board in this run: label at (102, 137.15), TP7 `EN` at (119, 132.7), 178 vias = 170 GND + 8 non-GND.
+  - Postdates rev D (1393414), so rev E. No .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit.
+- Open: outputs/ is stale until the next export (the drill file there lacks the 66 extra holes).
+- Verification: person-reported KiCad DRC with zone refill and schematic parity at HEAD: 0 violations, 0 unconnected, 0 parity issues. copperhead ERC, DRC and drift run in this change.
+
+## 2026-11-07 — Docs only. Bring the design record in step with board commit fb7cc21, made with a KiCad pcbnew script and a kicad-cli zone refill outside copperhead do, at the person's request (2026-11-07), because they read as hairline traces under D3 and beside D1. That commit deletes three 0.5 mm F.Cu GND stubs: D3.2 anode to the via at (135.2, 134.75) along x 135.2 from y 132.4; D3.2 anode to the via at (137.6, 134.75) along x 137.6 from y 132.4; and R1.2 (136.825, 112) up x 136.825 to (136.825, 110.325) and a 45 degree into the D1.2 GND via at (136.5, 110). All three lay inside the solid F.Cu GND pour (D3.2, D1.2 and R1.2 have pad-level zone_connect solid), so they carried no current of their own; the vias and R1.2 stay on GND through the pour, and the 1.5 mm D3 anode trunk at x 136.4 and the D1.2 1.0 mm stubs and B.Cu strap are unchanged. The zone fill did not change. Record: (1) docs/LAYOUT.md: update the R1.2 GND bullets (lines that say R1.2 runs up x 136.825 into the D1.2 via) to say R1.2 reaches GND through its solid pour connection and the stub was removed in fb7cc21; update the D3 anode stub mention (the anode stubs to the vias at (135.2/137.6, 134.75)) and the E2 paragraph where it lists those vias, saying the vias now join the anode through the F.Cu pour, not 0.5 mm stubs. Keep history as history. (2) docs/DECISIONS.md: one entry with the why (redundant copper inside solid pour that read as hairline traces; person's request 2026-11-07). (3) docs/CHANGELOG.md entry. The change postdates rev D and belongs to rev E; outputs/ is stale until the next export. Do not edit the .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean. At this HEAD, KiCad DRC with zone refill and schematic parity reports 0 violations, 0 unconnected and 0 parity issues.
+
+- Change: docs-sync-board-fb7cc21-gnd-stubs
+- Files: docs/LAYOUT.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-07 — Docs synced to board commit fb7cc21: three redundant GND stubs removed (rev E)
+
+- Change: docs-sync-board-fb7cc21-gnd-stubs
+- Files: docs/LAYOUT.md (Routed GND links R1.2 bullet, 9af7427 tidy-up R1.2 bullet, Rev E E2 paragraph, Option A GND list, via-density D3.2 return-via bullet), docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/docs-sync-board-fb7cc21-gnd-stubs
+- Summary:
+  - The person made board commit fb7cc21 (2026-11-07) with a KiCad pcbnew script and a kicad-cli zone refill, outside copperhead do.
+  - Deleted: three 0.5 mm F.Cu GND stubs. Two ran from the D3.2 anode to the vias at (135.2, 134.75) and (137.6, 134.75), along x 135.2 and x 137.6 from y 132.4. The third ran from R1.2 (136.825, 112) up x 136.825 to (136.825, 110.325), then 45° into the D1.2 GND via at (136.5, 110).
+  - Why: they lay inside the solid F.Cu GND pour (D3.2, D1.2 and R1.2 have pad-level `zone_connect 2`), carried no current of their own, and read as hairline traces under D3 and beside D1.
+  - Unchanged: the vias, the 1.5 mm D3 anode trunk at x 136.4, the D1.2 1.0 mm stubs and B.Cu strap, and the zone fill. R1.2 and the vias stay on GND through the pour.
+  - Checked on the live board in this run: both D3 vias present, no segment starting at (135.2/137.6, 132.4) or passing (136.825, 110.325).
+  - Postdates rev D (1393414), so rev E. No .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit; no net, value or footprint change.
+- Open: outputs/ is stale until the next export.
+- Verification: person-reported KiCad DRC with zone refill and schematic parity at HEAD: 0 violations, 0 unconnected, 0 parity issues. copperhead ERC, DRC and drift run in this change.
+
+## 2026-11-07 — Docs only. Bring the design record in step with board commit 55dc4db (option A power stage), made with a KiCad pcbnew script (research/proposals/rev-e/power-stage-loop/scripts/option_a_layout.py) and a kicad-cli zone refill outside copperhead do, at the person's request, because copperhead do cannot refill zones. Plan and reasons: research/proposals/rev-e/power-stage-loop/option-a-plan.md and power-stage-loop-analysis.md (sections 3, 4, 6, 9). Read the 55dc4db commit message and the board for exact coordinates. Record:
+(1) docs/LAYOUT.md: placement rows for C1 (131.4, 127.4) -90, D3 (136.4, 128.0) -90, C3 (134.7, 121.0) 0, TP5 (129.3, 122.0), TP8 (131.45, 121.6); the routed bullets for VIN_BUCK (C2 -> C3.1 -> V1 via pair at (132.95/133.75, 122.3) -> 1.5 mm B.Cu hop -> V2 via pair at (133.35, 125.9/126.7) -> C1.1; pin 7 -> C1.1 on F.Cu; the B.Cu run at x 133.6 and its six vias are gone), SW (PH -> 2.0 mm straight at y 124.0 into D3.1 -> 2.0 mm to L1.1, F.Cu only), GND (pin 6 -> C1.2 between C1's pads; C1.2 -> 2.5 mm straight under D3's body to the anode; anode via moved to (135.3, 129.3); three tented GND vias at x 138.65, y 130.6/131.4/132.2; stitching via at (131.25, 121.25) removed; TP8 pad solid to GND), and the silkscreen moves (TP5/TP8 references 0.8 mm above the pads, SW label below TP5, C1 reference between its pads, C3 reference right of C3).
+(2) docs/DECISIONS.md entries, each with its why: option A chosen by the person on 2026-11-07 over option B; C1 (10 uF) now closes the commutation loop at U1 pins 7/6 because U1's GND pin is not in the commutation loop, which partly reverses E1 (C3 moves upstream to the VIN hop); as-routed results from scripts/loop_inductance.py: commutation loop 46.1 -> 30.4 mm2 routed, 9.8 -> 6.9 nH with the B.Cu plane, diode leg 10.6 -> 8.1 nH, U1 local decoupling 2.0 -> about 2.7 nH (accepted); SW copper 47.1 -> 48.1 mm2, all F.Cu; B.Cu GND slot 10.5 x 2.6 mm -> about 5.2 x 1.6 mm (one hop; on two layers VIN must cross SW once); about 28-30 mm2 accepted as the floor with the B560C/SMC and a 1210 C1 (brief unchanged); the person chose to make the layout change before rev D bring-up, so the diode choice (E9) is still open and the D3 area is redone if the short-circuit test calls for a larger part. Say the change postdates rev D, belongs to rev E, and that outputs/ is stale until the next export.
+(3) A docs/CHANGELOG.md entry.
+(4) docs/SPEC.md section 6 'Tight switching loop' bullet: name C1 (10 uF) at U1 VIN/GND pins closing the commutation loop with D3 adjacent, and C3 (100 nF) at the VIN hop. Update docs/SUBSYSTEMS.md where it places C3 at the pins or describes the VIN_BUCK B.Cu run.
+(5) openspec: a new change that MODIFIES the requirement 'HF input capacitor loop on F.Cu without vias' from openspec/changes/docs-sync-board-rev-e-e1-e4-e14 so it names C1: C1 SHALL have its VIN pad on U1 pin 7 copper and its GND pad on U1 pin 6 GND copper on F.Cu, with no via in the C1-U1-D3 commutation loop; scenario loop area about 30 mm2 routed. Also MODIFY 'minimal switch-node copper' only to drop the phrase that the B.Cu GND pour is continuous under the hot loop, replacing it with: interrupted only by the VIN_BUCK hop. ADD a requirement: VIN_BUCK SHALL cross under SW at most once, by one B.Cu hop with one via pair at each end. Each cites docs/BRIEF.md Physical ('Tight high-current switching loop, with the catch diode and input bypass capacitor adjacent to the regulator').
+(6) docs/DEVPLAN.md T5: TP8 is now at (131.45, 121.6), 2.2 mm from TP5.
+Do not edit the .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean. At this HEAD, KiCad DRC with zone refill and schematic parity reports 0 violations, 0 unconnected and 0 parity issues.
+
+- Change: docs-sync-board-55dc4db-option-a
+- Files: docs/LAYOUT.md, docs/SPEC.md, docs/SUBSYSTEMS.md, docs/DEVPLAN.md, openspec/changes/docs-sync-board-55dc4db-option-a/specs/board/spec.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-07 — Docs synced to board commit 55dc4db: option A power stage (rev E)
+
+- Change: docs-sync-board-55dc4db-option-a
+- Files: docs/LAYOUT.md (placement rows C1, D3, C3, TP1..TP5, C10/R5/TP8; superseded notes on the VIN_BUCK, SW, GND and E1 bullets; new Option A section; silkscreen), docs/SPEC.md §6, docs/SUBSYSTEMS.md §0/§3, docs/DEVPLAN.md T5, openspec/changes/docs-sync-board-55dc4db-option-a (two MODIFIED requirements, one ADDED), docs/DECISIONS.md, docs/CHANGELOG.md
+- Summary:
+  - **How the commit was made.** The person made board commit 55dc4db with research/proposals/rev-e/power-stage-loop/scripts/option_a_layout.py and a kicad-cli zone refill, outside copperhead do, which cannot refill zones.
+  - **Sources.** Coordinates are read from the live board and the script. The commit message could not be read, because the workspace is not a git repository. As-routed figures are person-reported from scripts/loop_inductance.py.
+  - **Placement.** C1 (131.4, 127.4) −90°; D3 (136.4, 128.0) −90°; C3 (134.7, 121.0) 0° at the VIN hop; TP5 (129.3, 122.0); TP8 (131.45, 121.6).
+  - **VIN_BUCK.** C2 → C3.1 → V1 vias (132.95/133.75, 122.3) → 1.5 mm B.Cu hop → V2 vias (133.35, 125.9/126.7) → C1.1. Pin 7 → C1.1 runs on F.Cu. The B.Cu run at x 133.6 and its six vias are gone.
+  - **SW.** PH runs 2.0 mm straight at y 124.0 into D3.1, then 2.0 mm to L1.1, F.Cu only.
+  - **GND.**
+    - Pin 6 → C1.2 runs between C1's pads.
+    - C1.2 → anode is a 2.5 mm run under D3's body.
+    - The anode via moved to (135.3, 129.3).
+    - Three tented GND vias were added at x 138.65, y 130.6 / 131.4 / 132.2.
+    - The via at (131.25, 121.25) was removed.
+    - TP8's pad is solid to GND.
+  - **Silk.** TP5 and TP8 references sit above their pads; the SW label is below TP5; C1's reference is between its pads; C3's reference is to its right.
+  - **Results.**
+    - Loop 46.1 → 30.4 mm² routed.
+    - 9.8 → 6.9 nH with the B.Cu plane.
+    - Diode leg 10.6 → 8.1 nH.
+    - U1 decoupling 2.0 → ≈ 2.7 nH, accepted.
+    - SW 47.1 → 48.1 mm², all F.Cu.
+    - B.Cu slot 10.5 × 2.6 → ≈ 5.2 × 1.6 mm.
+  - **E1 and the floor.** E1 is partly reversed: C1, not C3, closes the loop at the pins. About 28–30 mm² is accepted as the floor; the brief is unchanged.
+  - **Revision.** The commit postdates rev D (1393414), so it belongs to rev E.
+  - **Not edited.** No .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit. No value, part, net or footprint change.
+- Open:
+  - outputs/ is stale until the next export.
+  - The diode choice (E9) is still open. If the rev D short-circuit test (DEVPLAN T13) calls for a larger part, the D3 area and the C1–D3 junction are redone.
+  - Rev D bring-up tests the old layout; its thermal and short-circuit results still apply to the parts.
+- Verification: person-reported KiCad DRC with zone refill and parity: 0 violations, 0 unconnected, 0 parity issues at HEAD. copperhead ERC, DRC and drift run in this change.
+
+## 2026-11-07 — Replace the 4 mm copperhead mark on the front silkscreen with the copperhead lockup and the board name, per docs/BRIEF.md Physical (2026-11-06, commit f1a6f4b: the copperhead lockup with the board name and revision directly below it as tps5430/rev-<letter>; from rev E). (1) Delete the five F.Silkscreen graphics of the old mark added in a534656: the gr_circle centred at (104, 136.5) with radius 0.92 mm and the four gr_line ticks around it. (2) Insert verbatim the 11 gr_poly items from lib/branding/rev-e-lockup-board-graphics.kicad_sexp (filled, F.SilkS, already in board coordinates, spanning x 101.5 to 115.9 and y 135.6 to 137.46). Do not rescale or move them. (3) Add one gr_text on F.SilkS: 'tps5430/rev-e', 1.0 mm size, 0.15 mm thickness, left-justified at (101.5, 138.6), spanning about x 101.5 to 113.3 and y 137.75 to 139.45. Nothing else may change: no net, footprint, copper, zone, schematic, BOM or position-file change. Update docs/LAYOUT.md silkscreen, DECISIONS (the 4 mm mark from a534656 was replaced by the lockup and label at the person's request, 2026-11-06, to match the STM32 data logger board, and the same branding was put on the public GitHub copy of rev D as tps5430/rev-d) and CHANGELOG, and update the openspec requirement from copperhead-mark-front-silk (or add one) to cite docs/BRIEF.md Physical. Do not touch releases/ or outputs/. DRC must stay at 0 violations, including silk_overlap, silk_edge_clearance and silk_over_copper. ERC, parity and drift must stay clean.
+
+- Change: rev-e-lockup-front-silk
+- Files: tps5430-12-v-to-5-v-industrial-buck-converter.kicad_pcb, docs/LAYOUT.md, docs/CHANGELOG.md, openspec/changes/copperhead-mark-front-silk/proposal.md, openspec/changes/rev-e-lockup-front-silk/specs/board/spec.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-07 — Copperhead lockup and tps5430/rev-e label replace the 4 mm mark on the front silkscreen (rev E)
+
+- Change: rev-e-lockup-front-silk
+- Files: tps5430-12-v-to-5-v-industrial-buck-converter.kicad_pcb (F.SilkS board graphics only), docs/LAYOUT.md (Silkscreen), docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/rev-e-lockup-front-silk (requirement), openspec/changes/copperhead-mark-front-silk/proposal.md (superseded note)
+- Summary:
+  - Per docs/BRIEF.md Physical (2026-11-06, commit f1a6f4b): the copperhead lockup with the board name and revision directly below it as `tps5430/rev-<letter>`, from rev E.
+  - Deleted: the five F.SilkS graphics of the old mark from a534656 (gr_circle (104, 136.5) r 0.92 mm and four gr_line ticks, uuids c0ffeeaa-0e00-4000-8000-00000000000[1-5]).
+  - Inserted verbatim: the 11 filled F.SilkS gr_poly items from lib/branding/rev-e-lockup-board-graphics.kicad_sexp (board coordinates, x 101.5–115.9, y 135.6–137.46). They were not rescaled or moved.
+  - Added: gr_text `tps5430/rev-e`, 1.0 mm size, 0.15 mm thickness, left-justified at (101.5, 138.6), about x 101.5–113.3, y 137.75–139.45.
+  - No net, footprint, copper, zone, schematic, BOM or position-file change. releases/ and outputs/ untouched; outputs/ does not carry the lockup until the next export.
+- Open: confirm schematic parity with `kicad-cli pcb drc --schematic-parity`. copperhead run_drc does not run parity, but no footprint or symbol changed, so parity is unaffected.
+- Verification: DRC clean (0 violations; no silk_overlap, silk_edge_clearance or silk_over_copper). ERC clean. Drift clean.
+
+## 2026-11-07 — Docs only. In docs/BOM.md, mark R5 (Uniroyal 0603WAF0000T5E, LCSC C21189) VERIFIED, citing research/parts/datasheet-verification.md: Uniroyal SMD-SP-001 version 9 (Jun. 21, 2025), section 7 Ratings, 0603 jumper < 50 mohm, rated 1 A, overload 2 A, -55 to +155 C, read 2026-11-06. Remove its UNVERIFIED mark, so copperhead export bom --supplier jlcpcb includes R5. R5 must be fitted: it is the only link from J3/TP7 (/EN_EXT) to U1 EN, and the exporter currently drops it as UNVERIFIED. In docs/DEVPLAN.md T10, set the reverse-current pass limit from the DMP6023LE IDSS of -1 uA max at VDS -60 V (DS37199 rev 3-2, now in datasheet-verification.md), allowing for leakage rising with temperature. In docs/SUBSYSTEMS.md, cite the B560C RthJT 10 C/W and RthJA 50 C/W from datasheet-verification.md, which closes the thermal half of verification finding B.F6. Add DECISIONS and CHANGELOG entries. Do not edit .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean.
+
+- Change: docs-r5-verified-t10-idss-d3-thermal
+- Files: docs/BOM.md, docs/SUBSYSTEMS.md, docs/DEVPLAN.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean
+
+## 2026-11-07 — R5 verified, T10 IDSS pass limit, B560C thermal citation (docs only)
+
+- Change: docs-r5-verified-t10-idss-d3-thermal
+- Files: docs/BOM.md (R5 row), docs/DEVPLAN.md (T10), docs/SUBSYSTEMS.md (§1 reverse-input bullet, §3 D3 bullet, §5 R5 bullet, §9 component-rise row), docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/docs-r5-verified-t10-idss-d3-thermal
+- Summary:
+  - R5 0603WAF0000T5E (LCSC C21189): UNVERIFIED mark removed in BOM and SUBSYSTEMS §5; now VERIFIED from research/parts/datasheet-verification.md (Uniroyal SMD-SP-001 version 9, Jun. 21 2025, section 7 Ratings, read 2026-11-06): < 50 mΩ, 1 A rated, 2 A overload, −55 to +155 °C. R5 is the only link from J3/TP7 (EN_EXT) to U1 EN, so it must be in the assembly BOM; `copperhead export bom --supplier jlcpcb` dropped it while UNVERIFIED (`assembly.qty`).
+  - DEVPLAN T10: pass limit set from DMP6023LE IDSS −1 µA max at VDS −60 V, VGS 0 V, TJ 25 °C (DS37199 rev 3-2). Test at room temperature; reverse Iin ≤ 1 µA, with a stated temperature allowance (typical ~2× per 10 °C, not a datasheet limit) if the board is warm; > ~10 µA investigate, ~0.2 mA stop. Closes the IDSS open item of docs-rev-e-record-corrections (P.F1).
+  - SUBSYSTEMS §3/§9: B560C RθJT 10 °C/W, RθJA 50 °C/W cited from research/parts/datasheet-verification.md (Diodes DS13012 rev 19-2). Closes the thermal half of B.F6 (the compensation half closed 2026-11-07).
+  - No .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit. No value, part, net or footprint change.
+- Open: re-run `copperhead export bom --supplier jlcpcb` so outputs/jlcpcb-bom.csv includes R5 (C21189).
+
+## 2026-11-07 — Docs only, rev E design-record corrections (research/proposals/rev-e/rev-e-proposal.tex section 5 and section 7; research/references/buck-converter-design-guidelines/). (1) BR-B: wherever SPEC, SUBSYSTEMS or BOM bound C5's ESR at about 80 mohm, change the bound to about 40 mohm. TI SLVS632L rev L eq. 9 gives ESRmax = 1/(2 pi Cout fco), about 40 mohm for 220 uF at 18 kHz, which is the datasheet's own figure; the fitted 27 mohm still passes. Record that the TPS5430 compensation check is now done against SLVS632L eqs. 7-9: fco about 16 kHz with C5+C6 = 242 uF, within the 3-30 kHz range; ESR zero about 27 kHz. This closes verification finding B.F6's compensation half. (2) BR-C and P.Q2: the U1 junction estimate. SLVS632L 7.2.1.2.8.3 at 9 V, 3 A with RDS(on) max 230 mohm gives Ptot about 1.5 W; with the EVM's 45 C/W that is Tj about 118 C at 50 C ambient, inside 125 C by about 7 C. The record's 80-85 C used typical RDS(on) and an unverified 33 C/W. Mark it tight and to be measured. (3) P.F1: DEVPLAN T10. With J1 reversed, the expected reverse input current is Q1 drain leakage (microamps), not 0.2 mA. D2/R1 form no loop. A reading near 0.2 mA means Q1 is conducting or damaged; take the pass limit from the DMP6023LE IDSS. Correct the SUBSYSTEMS 1 reverse-input bullet. (4) B.F1: R1 current equals D2 current, max(0, Vin - Vz)/100 kohm: at 18 V at most 66 uA, none on reverse input. Remove the 120 uA and 180 uA figures. (5) R.F2: strike stale text in LAYOUT and SPEC that says the board is 55 x 35 mm, unfilled, unstitched or not manufacturable, and the superseded VIN_RAW bullet from 9af7427. (6) B.F3: point SUBSYSTEMS 2's FB1 rating at research/parts/datasheet-verification.md, not jlcpcb-sourcing.md. (7) DEVPLAN, for rev E bring-up: add a shorted-output test at 9 V and 18 V for 60 s, logging D3 temperature and the SW waveform. It decides whether D3 needs an 8 A+ part or the 5 V wiring an external fuse: at the 4-6 A current limit D3 can dissipate 2.6-4.5 W against a 5 A rating and 50 C/W (verification B.F5 and B.Q1, proposal E9). Add Vout measured at the J2 screws at 3 A (P.F2, R.Q2, E5). Add the hot-plug input ringing check through 2 m of cable, which decides whether C10 is fitted (E7). Drop the R4 item that asks to measure the SW pour area, since the pour is gone, and say T5 uses TP8 as the probe ground. (8) DECISIONS and CHANGELOG entries. Do not edit .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean.
+
+- Change: docs-rev-e-record-corrections
+- Files: docs/SPEC.md, docs/SUBSYSTEMS.md, docs/BOM.md, docs/LAYOUT.md, docs/DEVPLAN.md, openspec/changes/docs-rev-e-record-corrections/specs/board/spec.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean
+
+## 2026-11-07 — Rev E design-record corrections, docs only (research/proposals/rev-e/rev-e-proposal.tex §5, §7; research/references/buck-converter-design-guidelines/)
+
+- Change: docs-rev-e-record-corrections
+- Files: docs/SPEC.md §3/§4/§6, docs/SUBSYSTEMS.md §1/§2/§4/§9, docs/BOM.md (C5, R1 rows; no-load roll-up), docs/LAYOUT.md (Fine, Unrouted, item 1, 9af7427 VIN_RAW bullet, via-density Open), docs/DEVPLAN.md (R4, R10, §2 C5 row, T5, T8, T10, new T13–T15), .copperhead/constraints.json (`power.output_filter_compensation`, `thermal.tj_max_C`, `pcb.copper_oz`), openspec/changes/docs-rev-e-record-corrections, docs/DECISIONS.md, docs/CHANGELOG.md
+- Summary:
+  - BR-B / B.F6: C5 ESR bound changed from ~80 mΩ to ~40 mΩ (TI SLVS632L eq. 9, 220 µF at 18 kHz). Compensation check recorded against eqs. 7–9: fco ≈ 16 kHz with 242 µF (3–30 kHz range), ESR zero ≈ 27 kHz. The fitted 27 mΩ passes. This closes the compensation half of B.F6.
+  - BR-C / P.Q2: U1 Tj ≈ 118 °C at 9 V / 3 A / 50 °C (Ptot ≈ 1.5 W with RDS(on) max 230 mΩ, EVM 45 °C/W). That leaves ≈ 7 °C margin, so it is marked tight and to be measured. It replaces the 80–85 °C estimate, which used typical RDS(on) and an unverified 33 °C/W.
+  - P.F1: DEVPLAN T10 and SUBSYSTEMS §1. Reverse input current is Q1 drain leakage (µA), and D2/R1 form no loop. A reading near 0.2 mA means Q1 is conducting or damaged. The pass limit is the DMP6023LE IDSS, which is not yet recorded in research/.
+  - B.F1: R1 current = D2 current = max(0, Vin − Vz)/100 kΩ, ≤ 66 µA at 18 V and none on reverse. The 120 µA and 180 µA figures are removed.
+  - R.F2: stale 55 × 35 mm, unfilled, unstitched and not-manufacturable text struck in LAYOUT and SPEC. The superseded 9af7427 VIN_RAW bullet is struck.
+  - B.F3: SUBSYSTEMS §2 FB1 rating now cites research/parts/datasheet-verification.md.
+  - DEVPLAN: T13 shorted output (E9, B.F5, B.Q1), T14 Vout at the J2 screws (E5, P.F2, R.Q2), T15 hot-plug ringing deciding C10 (E7). R4 SW-pour item dropped. T5 uses TP8 as probe ground.
+  - No .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit. No value, part, net or footprint change.
+- Open: read the DMP6023LE IDSS from DS37199 into research/parts/datasheet-verification.md before T10. Add the B560C RθJT/RθJA to that file (B.F6 D3 half).
+
+## 2026-11-06 — Docs only: bring the design record in step with board commits c502f61 (E1), efb38ed (E2, E3), 6e5b905 (E4) and the silkscreen part of 06b32da (E14). The person chose to make these with a KiCad pcbnew script and a kicad-cli zone refill, because copperhead do cannot refill zones. Read those commit messages and the board for exact coordinates. Each change is from research/proposals/rev-e/rev-e-proposal.tex, and the layout findings are from the rev D sliding-window layout review. Record the following. (1) docs/LAYOUT.md placement rows for C3, C1, C9, R4 and D4, and the routed bullets for VIN_BUCK at C3/C1, GND C1.2 to the D3 anode, EN at C9, SW (now only pads and traces, no SW zones), +5V (the LED feed is gone; the Kelvin feed is unchanged) and /LED_A. Also the zone list (SW_copper_F.Cu and SW_copper_B.Cu deleted), the D3 anode GND vias under the body, the solid zone connections on D3.2, C1.2, C2.2, C5.2, C6.2 and D1.2, the 1.0 mm spokes on J1/J2 GND, the removed stitching vias, and the silkscreen moves (C1, U1, D4, R4, and J1 -GND now vertical). (2) DECISIONS: one entry per change with its why: E1 C3 loop ~64 mm2 with a via in series, now ~57 mm2 all on F.Cu, through pad centres; E2 SW copper 102.6 mm2 F.Cu plus 123.2 mm2 B.Cu, now 47.1 mm2 F.Cu and none on B.Cu, D3 cooled from its anode, B560C RthJT 10 C/W and RthJA 50 C/W from Diodes DS13012 rev 19-2, read 2026-11-06; E3 the spokes; E4 the B.Cu slot from the LED and Kelvin feeds. Say they were made outside copperhead do at the person's request, that they postdate rev D (1393414) so they belong to rev E, and that outputs/ is stale until the next export. (3) A CHANGELOG entry. (4) openspec requirements, each citing docs/BRIEF.md Physical: the HF input capacitor has its GND pad on U1 GND copper on F.Cu with no via in its loop; no switch-node copper beyond the pads and the PH/D3/L1 traces; the power GND pads have solid zone connections; no +5V feed other than the Kelvin sense runs on B.Cu. (5) docs/SPEC.md and docs/SUBSYSTEMS.md wherever they describe the SW pour, D3 cooling or the LED feed. Do not edit the .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean. At this HEAD, KiCad DRC with zone refill and schematic parity reports 0 violations, 0 unconnected and 0 parity issues.
+
+- Change: docs-sync-board-rev-e-e1-e4-e14
+- Files: docs/LAYOUT.md, docs/SPEC.md, docs/SUBSYSTEMS.md, openspec/changes/docs-sync-board-rev-e-e1-e4-e14/specs/board/spec.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-06 — Docs synced to board commits c502f61 (E1), efb38ed (E2, E3), 6e5b905 (E4) and the silkscreen of 06b32da (E14) (rev E)
+
+- Change: docs-sync-board-rev-e-e1-e4-e14
+- Files: docs/LAYOUT.md (placement C1, C3, C9, R4/D4; Routed SW, R4 feed, GND C1.2→D3, LED_A, C3.2; new Rev E section; J1 silk; accepted-for-rev-A note), docs/SPEC.md §4, docs/SUBSYSTEMS.md §3/§9, openspec/changes/docs-sync-board-rev-e-e1-e4-e14 (four requirements), docs/DECISIONS.md, docs/CHANGELOG.md
+- Summary:
+  - The person made these commits with a pcbnew script and kicad-cli zone refill, outside copperhead do (it cannot refill zones). Coordinates read from the live board; loop and area figures are the person's (no git repository here).
+  - E1: C3 to (130.55, 126.5) 270° at U1 pins 7/6, GND on F.Cu to U1.6, no via; loop ≈ 64 → ≈ 57 mm². C1 to (131.4, 130.4), C9 to (131, 133.6).
+  - E2: SW_copper_F.Cu and SW_copper_B.Cu and four SW vias deleted; SW 102.6 + 123.2 mm² → 47.1 mm² F.Cu only. D3 cooled from its anode (GND vias under the body; B560C RθJT 10 °C/W, RθJA 50 °C/W, Diodes DS13012 rev 19-2).
+  - E3: solid zone connections on D3.2, C1.2, C2.2, C5.2, C6.2, D1.2; 1.0 mm spokes on J1.2/J2.2.
+  - E4: R4/D4 to (157.5, 123.5)/(157.5, 127) beside C6, F.Cu feed from the +5V trunk; B.Cu LED feed removed; Kelvin feed unchanged.
+  - E14: C1, U1, D4, R4 references moved; J1 -GND vertical at (112.4, 115.5).
+  - Postdates rev D (1393414), so rev E. No .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/ edit.
+- Open: outputs/ stale until the next export. Bench: D3 rise at 18 V / 3 A (DEVPLAN T8) and SW ringing at TP5 with TP8 (T5). docs/DEVPLAN.md R4 still refers to measuring SW pour area (now moot).
+- Verification: person-reported KiCad DRC with zone refill and parity clean at HEAD; copperhead ERC, DRC and drift run in this change.
+
+## 2026-11-06 — Rev E changes E6, E7 and E10 (research/proposals/rev-e/rev-e-proposal.tex; docs/BRIEF.md Parts and Interfaces as amended in cd3d0b8): bring the schematic in line with board commits 06b32da and 373fb8f. Those commits placed and routed three new footprints with a pcbnew script and a zone refill, by the person's choice. TP8 no longer carries exclude_from_bom, the same as TP1-TP7. In schematic.intent.json add three parts. (1) C10: libId Device:C_Polarized, value 100uF, footprint Capacitor_SMD:CP_Elec_8x10, group '2. Optional input EMI filter (bridged in rev A)', pin 1 on VIN_BUCK, pin 2 on GND. It is the bulk input capacitor, Panasonic EEE-FK1H101P, not fitted (research/parts/input-bulk-capacitor.md). (2) R5: libId Device:R, value 0R, footprint Resistor_SMD:R_0603_1608Metric, group '5. Enable', pin 2 on EN, pin 1 on a new net named exactly EN_EXT, the way EN is named. (3) TP8: libId Connector:TestPoint, value TP_GND3, footprint TestPoint:TestPoint_Pad_1.0x1.0mm, group '7. Test points', pin 1 on GND. Move J3.1 and TP7.1 from EN to EN_EXT, so EN keeps U1.5, C9.1 and R5.2. Re-draft the schematic. The only board edit allowed is linking the C10, R5 and TP8 footprints to their new symbols (the footprint path/sheetfile fields, as copperhead sync would write them). Make no copper, placement, attribute or silkscreen change. Then update the docs. docs/BOM.md: a C10 row with MPN cell '—', like J3/C7/C8, because it is not fitted, with a rationale naming EEE-FK1H101P and LCSC C178548; an R5 row (0R 0603) using UniOhm 0603WAF0000T5E (LCSC C21189, JLCPCB Basic), marked UNVERIFIED until its datasheet is read; a TP8 row with MPN '—', like the other test points. docs/PINOUT.md: J3 pin 1 is now EN_EXT, through R5. docs/SPEC.md and docs/SUBSYSTEMS.md, where they describe the EN path, the input capacitors and the test points. DECISIONS and CHANGELOG (rev E). openspec: requirements for the GND probe pad beside TP5, the 0 ohm EN series position and the unfitted bulk capacitor footprint, each citing docs/BRIEF.md. Do not touch releases/ or outputs/. KiCad DRC with zone refill and schematic parity must report 0 violations, 0 unconnected and 0 parity issues. ERC and drift must stay clean.
+
+- Change: rev-e-en-series-bulk-cap-gnd-probe
+- Files: schematic.intent.json, docs/BOM.md, tps5430-12-v-to-5-v-industrial-buck-converter.kicad_sch, tps5430-12-v-to-5-v-industrial-buck-converter.kicad_pcb, docs/PINOUT.md, docs/SPEC.md, docs/SUBSYSTEMS.md, docs/LAYOUT.md, openspec/changes/rev-e-en-series-bulk-cap-gnd-probe/specs/board/spec.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-06 — Schematic synced to board commits 06b32da and 373fb8f: C10, R5, TP8 and net EN_EXT (rev E, E6, E7, E10)
+
+- Change: rev-e-en-series-bulk-cap-gnd-probe
+- Files: schematic.intent.json, tps5430-12-v-to-5-v-industrial-buck-converter.kicad_sch (re-drafted), tps5430-12-v-to-5-v-industrial-buck-converter.kicad_pcb (path/sheetname/sheetfile on C10, R5, TP8 only), docs/BOM.md, docs/PINOUT.md, docs/SPEC.md §3/§5/§7, docs/SUBSYSTEMS.md §0/§2/§3/§5/§7, docs/LAYOUT.md (placement row), .copperhead/constraints.json (`protection.ena_pin_max_V`), docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/rev-e-en-series-bulk-cap-gnd-probe (three requirements)
+- Summary:
+  - The person placed and routed C10, R5 and TP8 in board commits 06b32da and 373fb8f (pcbnew script and zone refill). This run brings the schematic and docs in line.
+  - Intent: C10 Device:C_Polarized 100uF CP_Elec_8x10 (group 2), pin 1 VIN_BUCK, pin 2 GND. R5 Device:R 0R R_0603_1608Metric (group 5), pin 1 EN_EXT, pin 2 EN. TP8 Connector:TestPoint TP_GND3 TestPoint_Pad_1.0x1.0mm (group 7), pin 1 GND. New net EN_EXT = R5.1, J3.1, TP7.1; EN = U1.5, C9.1, R5.2.
+  - Board: only `(path …)`, `(sheetname …)`, `(sheetfile …)` added on C10 (/1166895f-…), R5 (/20288dde-…) and TP8 (/2e46c8ff-…), as copperhead sync writes them. No copper, placement, attribute or silkscreen change. The board already had J3.1/TP7.1/R5.1 on EN_EXT.
+  - BOM: C10 MPN `—` (EEE-FK1H101P, LCSC C178548, not fitted); R5 0603WAF0000T5E, LCSC C21189, UNVERIFIED; TP8 MPN `—`.
+  - Constraints: `protection.ena_pin_max_V` holds (series only, no pull-up); `power.iin_shutdown_mA` unchanged (C10 unfitted, R5 no path to GND); `components.voltage_derating` (C10 50 V); `assembly.qty` (C10 and TP8 out of BOM and CPL).
+  - releases/ and outputs/ untouched; outputs/ is stale until the next export.
+- Open: confirm with `kicad-cli pcb drc --refill-zones --schematic-parity` (copperhead run_drc does not run parity). Verify R5 against the UniOhm datasheet. Re-export outputs/ and the JLCPCB BOM so R5 appears and C10/TP8 do not.
+- Verification: ERC clean. DRC clean (copperhead run_drc). Legibility 0 errors (1 low-utilization advisory, A3 kept). Drift clean. verify_symbols: only the accepted copperhead_power findings.
+
+## 2026-11-06 — Rev E change E11 (research/proposals/rev-e/rev-e-proposal.tex), docs only: in docs/BOM.md set the MPN cell of J3, C7 and C8 to the (no part) marker that copperhead's BOM exporter treats as nothing to buy, so copperhead export bom --supplier jlcpcb omits all three instead of emitting J3 as a fitted line valued EN with no LCSC part and C7/C8 as lines valued DNP. Keep each row's value, footprint, and its text saying the part is not fitted (DNP) in rev A to E and why. Serves copperhead verification findings F.F1, G.F1 and S.F2 and the rev D sweep's assembly-parity items. The schematic DNP attribute itself is not possible: a previous run found the drafting engine always writes (in_bom yes) (dnp no) and refuses direct edits, so record in DECISIONS that the DNP state lives in docs/BOM.md and the board's exclude_from_pos_files, and that the schematic attribute waits on the engine. Update the docs/BOM.md sentence about which parts the generated BOM omits, and CHANGELOG (rev E). Do not touch the .kicad_sch, .kicad_pcb, schematic.intent.json, releases/ or outputs/. Drift, ERC, DRC and parity must stay clean.
+
+- Change: bom-dnp-no-part-marker
+- Files: docs/BOM.md, docs/DECISIONS.md, docs/CHANGELOG.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-06 — DNP parts J3, C7, C8 carry the no-part MPN marker (rev E, E11)
+
+- Change: bom-dnp-no-part-marker
+- Files: docs/BOM.md (C7, C8, J3 rows; header sentences on the LCSC cell and the DNP footprints), docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/bom-dnp-no-part-marker
+- Summary:
+  - Per research/proposals/rev-e/rev-e-proposal.tex §E11 (findings F.F1, G.F1, S.F2, rev D sweep assembly-parity), the MPN cell of J3, C7 and C8 changes from `DNP` to `—`. Before this, `copperhead export bom --supplier jlcpcb` emitted J3 as a fitted line valued EN with no LCSC part and C7/C8 as a line valued DNP.
+  - Marker choice: the literal `(no part)` text is not in the workspace and the exporter source is not available. `—` is the marker TP1–TP7, H1 and H2 already carry, and those rows are already omitted from outputs/jlcpcb-bom.csv.
+  - Kept: values (EN, DNP, DNP), footprints, empty LCSC cells, and each row's not-fitted (DNP in rev A to E) rationale.
+  - The DNP state lives in docs/BOM.md and the board's `exclude_from_pos_files`. The schematic DNP attribute waits on the drafting engine, which always writes `(in_bom yes) (dnp no)` and refuses direct edits.
+  - No .kicad_sch, .kicad_pcb, schematic.intent.json, releases/ or outputs/ edit. No net, value or footprint change.
+- Open: re-run `copperhead export bom --supplier jlcpcb` and confirm outputs/jlcpcb-bom.csv no longer lists J3, C7 or C8.
+- Verification: drift clean. ERC clean. DRC clean. Schematic parity unaffected (no board or schematic edit).
+
+## 2026-11-06 — Add the copperhead mark to the front silkscreen (F.Silkscreen) as board graphics, per docs/BRIEF.md Physical (2026-11-06: the mark on the front silkscreen, about 4 mm across, in a free corner clear of pads, courtyards and other silkscreen; from rev E). The mark is /opt/copperhead-workspace/brand/mark.svg scaled to 4.0 mm overall: centre (104.0, 136.5) in the free lower-left corner (no footprint, courtyard or silkscreen in x 101 to 107, y 133.5 to 139.5; board edge at x 99.95 and y 140.05). Draw a circle of radius 0.92 mm, line width 0.4 mm, and four straight ticks of line width 0.4 mm from 0.92 mm to 1.80 mm from the centre along +x, -x, +y and -y (tick ends at (104.92,136.5)-(105.80,136.5), (103.08,136.5)-(102.20,136.5), (104,137.42)-(104,138.30), (104,135.58)-(104,134.70)). No net, footprint, schematic, BOM or copper change. Record it in docs/LAYOUT.md silkscreen, DECISIONS (the person asked for it on 2026-11-06 after rev D was released; it belongs to rev E; rev D and its public release have no mark) and CHANGELOG, and add an openspec requirement citing docs/BRIEF.md Physical. Do not touch releases/ or outputs/. DRC must stay at 0 violations (no silk_overlap, silk_edge_clearance or silk_over_copper); ERC, parity and drift must stay clean.
+
+- Change: copperhead-mark-front-silk
+- Files: tps5430-12-v-to-5-v-industrial-buck-converter.kicad_pcb, docs/LAYOUT.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC clean, DRC clean
+
+## 2026-11-06 — Copperhead mark added to the front silkscreen (rev E)
+
+- Change: copperhead-mark-front-silk
+- Files: tps5430-12-v-to-5-v-industrial-buck-converter.kicad_pcb (one gr_circle and four gr_line on F.SilkS only), docs/LAYOUT.md (Silkscreen), docs/DECISIONS.md, docs/CHANGELOG.md, openspec/changes/copperhead-mark-front-silk (requirement)
+- Summary:
+  - Per docs/BRIEF.md Physical (2026-11-06), the copperhead mark (brand/mark.svg, ring with four crosshair ticks) is on F.SilkS, 4.0 mm overall, centred at (104, 136.5) in the free lower-left corner.
+  - Circle r 0.92 mm, width 0.4 mm. Ticks 0.4 mm wide from 0.92 to 1.80 mm out along +x, −x, +y, −y. Ink extent x 102.0–106.0, y 134.5–138.5.
+  - Requested by the person on 2026-11-06 after the rev D release, so it belongs to rev E. Rev D and its public release have no mark.
+  - No net, footprint, track, via, zone, schematic or BOM change. releases/ and outputs/ untouched; outputs/ does not carry the mark until the next export.
+- Verification: DRC clean (0 violations; no silk_overlap, silk_edge_clearance or silk_over_copper). ERC clean. Drift clean. Schematic parity unaffected (board graphics only; no footprint or symbol change).
+
+## 2026-11-06 — Re-export the fabrication package into outputs/ with export_outputs from the current commit 1393414, which is the rev D release (releases/rev-d/, frozen from e03bac1). outputs/ was last exported at be48dd2 and is stale: since then the FB route was straightened with R3 and TP6 moved (956cc1e) and J1/J2 were turned so their wire openings face outward over the left and right board edges, with TP4 moved to (147.3, 101.8) and VIN_RAW/+5V re-routed (4698973, docs/BRIEF.md Physical 2026-11-06). Regenerate the gerbers with job file, drill, DXF outline, STEP, board.svg and schematic.svg, and regenerate outputs/BOM.csv from docs/BOM.md (no part changed, so it should be unchanged in content). Keep outputs/jlcpcb-bom.csv as it is: copperhead export bom rewrote it at 1393414 and it is byte-identical to releases/rev-d/bom/jlcpcb-bom.csv. Rewrite outputs/README.md for this export: say it matches rev D (commit 1393414, board unchanged since e03bac1), list what was regenerated, remove text that is now wrong (the old TP4 position (147.5, 109.08), the 'next revision after rev A' framing, 'workspace is not a git repository'), record that KiCad DRC with zone refill and schematic parity reports 0 violations, 0 unconnected and 0 parity issues at e03bac1, that terminal orientation was verified from footprint rotation and kicad-cli 3D renders, and that the files to send to a fab are the frozen ones in releases/rev-d/ (which also holds the placement file); keep the fab notes (1.3 mm finished J1/J2 holes, 2 oz copper on the order form, tented vias) and add that JLCPCB's placement preview must show J1's openings toward the left edge and J2's toward the right. Do not modify the board, schematic, schematic.intent.json or anything in releases/. Every export must succeed. Drift must stay clean.
+
+- Change: outputs-reexport-rev-d
+- Files: outputs/, outputs/README.md, docs/CHANGELOG.md, docs/DECISIONS.md
+- Verification: ERC not required, DRC clean
+
+## 2026-11-06 — Fabrication package re-exported at rev D (commit 1393414)
+
+- Change: outputs-reexport-rev-d
+- Files: outputs/gerbers/* (with gbrjob), outputs/*.drl, outputs/outline.dxf, outputs/board.step, outputs/board.svg, outputs/schematic.svg, outputs/README.md, .copperhead/renders/, docs/DECISIONS.md, docs/CHANGELOG.md
+- Summary:
+  - outputs/ was last exported at be48dd2 and was stale. It predated board commits 956cc1e (FB route straightened, R3 and TP6 moved) and 4698973 (J1/J2 turned so the wire openings face outward, TP4 to (147.3, 101.8), VIN_RAW/+5V re-routed).
+  - Pre-export `run_drc` was clean. `export_outputs` re-ran at commit 1393414, the rev D release commit (releases/rev-d/, frozen from e03bac1; the board is unchanged since e03bac1; hashes as given by the person). All six artifacts succeeded: gerbers with gbrjob, drill, outline.dxf, board.step, board.svg, schematic.svg. `export_svg` sch and pcb renders regenerated.
+  - Board orientation re-read from the board file before writing the README: J1 `(at 105.6 110.42 -90)` (−90 = 270°), J2 `(at 154.4 109.08 90)`, TP4 `(at 147.3 101.8)`.
+  - outputs/BOM.csv: compared row by row with docs/BOM.md. No part changed, every row still matches (22 fitted placements, C9 fitted with LCSC C1588), so the file was not rewritten; its content is unchanged.
+  - outputs/jlcpcb-bom.csv untouched: written by `copperhead export bom` at 1393414, byte-identical to releases/rev-d/bom/jlcpcb-bom.csv (person-reported).
+  - outputs/README.md rewritten for rev D. It now states that the package matches rev D (1393414, board unchanged since e03bac1), lists the regenerated artifacts and the 956cc1e/4698973 changes it carries, and records KiCad DRC with zone refill and schematic parity at 0 violations, 0 unconnected, 0 parity issues at e03bac1 (person-reported). It records terminal orientation as verified from the footprint rotation (re-read in this run) and kicad-cli 3D renders (person-reported), and states that the files to send to a fab are the frozen ones in releases/rev-d/, which also hold the placement file. Fab notes kept (1.3 mm finished J1/J2 holes, 2 oz on the order form, tented vias). New pre-order check: JLCPCB's placement preview must show J1's openings toward the left edge and J2's toward the right.
+  - Removed stale README text: TP4 at (147.5, 109.08), the 'next revision after rev A' framing, and 'workspace is not a git repository'.
+  - PNG renders not produced: no copperhead tool writes them.
+  - No .kicad_pcb, .kicad_sch, schematic.intent.json or releases/ edit. No net, value or footprint change.
+- Verification: DRC clean before export. Drift check run. ERC not re-run: no schematic edit.
+
 ## 2026-11-06 — Docs only: bring the design record in step with board commit 4698973, which the person chose to make with a KiCad pcbnew script and a kicad-cli zone refill because copperhead do cannot refill zones (the earlier request to turn the terminals was refused for that reason). Read the commit message of 4698973 and the board for exact coordinates. Record: (1) docs/LAYOUT.md placement rows: J1 now (105.6, 110.42) 270° with pin 1 VIN_RAW on top and pin 2 GND at y 115.5; J2 now (154.4, 109.08) 90° with pin 2 GND on top at y 104 and pin 1 +5V at y 109.08; TP4 now (147.3, 101.8) with its 0.5 mm GND trace along y 101.8 and a 45 into J2.2; both terminals' wire openings face outward over their board edges, clamp faces about 0.9 mm inside the edge so the pin-1 silk triangles stay on the board; (2) the Routed bullets for VIN_RAW (J1.1 straight to (109.895, 110.42), one 45 into F1.1, 1.5 mm), +5V (x 156.8 trunk stops at y 111.48, one 45 into J2.1, 2.0 mm) and TP4 to J2.2; (3) the Silkscreen section: +VIN/-GND at (114, 110.42)/(114, 115.5), J2 -GND at (146.6, 104) and +5V at (147, 109.08), TP4 reference at (144.8, 101.8), FB1 reference at (141.8, 101.9), J1 reference (112.1, 118.5), J2 reference (148, 106.54), and that TP4's own GND name text was removed for lack of room; (4) docs/PINOUT.md if it states the pin positions or order of J1/J2; (5) DECISIONS: why (in rev A to C both terminals faced inward, J2 into C5; docs/BRIEF.md Physical now requires the wire openings to face outward, 2026-11-06), that the change was made outside copperhead do at the person's request and why, that it postdates rev C (0abd2dd) so it belongs to rev D, and that outputs/ is stale until the next export; (6) CHANGELOG entry; (7) an openspec requirement that each screw terminal's wire openings face outward over its board edge with nothing in front of the clamps, citing docs/BRIEF.md Physical, verified from the footprint rotation (TerminalBlock_Phoenix horizontal wire entry is footprint local +y: J1 at 270° on the left edge, J2 at 90° on the right edge) and courtyard position. KiCad DRC with zone refill and schematic parity, copperhead check and sync --dry-run were clean at 4698973. Do not edit the .kicad_pcb, .kicad_sch, schematic.intent.json, outputs/ or releases/. Drift must stay clean.
 
 - Change: docs-sync-board-4698973
