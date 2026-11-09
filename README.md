@@ -32,6 +32,8 @@ Non-isolated: input and output share ground.
 
 ![The board (a render, not a photograph)](images/board-front.png)
 
+*Renders, not photographs, with every footprint populated. C7, C8, C10 and J3 are drawn for reference but are not fitted on assembled rev E boards.*
+
 ## The circuit
 
 [![Schematic](images/schematic.png)](docs/schematic.pdf)
@@ -41,7 +43,7 @@ Non-isolated: input and output share ground.
   zener gate clamp, and an SMBJ18A TVS.
 - **Optional EMI filter:** footprints for an input filter. Rev E ships with it bridged by FB1;
   C7 and C8 are not fitted. A footprint for a 100 µF bulk input capacitor (C10) is there for
-  long field cables, also not fitted.
+  long field cables, also not fitted. The EN header J3 is not fitted either.
 - **Buck stage:** TPS5430 with a 15 µH shielded inductor (Bourns SRP1265A-150M), a B560C
   catch diode and 10 µF + 10 µF + 100 nF input capacitors. The 10 µF C1 sits on U1's VIN and
   GND pins and closes the switching loop with D3 (about 30 mm², 6.9 nH, calculated).
@@ -84,6 +86,8 @@ From [`docs/BOARD-STATS.md`](docs/BOARD-STATS.md):
   48 teardrops and 23 curved fillets.
 
 ![Angled view](images/board-angle.png)
+
+*Every footprint populated, including the unfitted C7, C8, C10 and J3.*
 
 ## Layout of this repository
 
